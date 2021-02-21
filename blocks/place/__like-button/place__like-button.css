@@ -1,0 +1,17 @@
+.place__like-button {
+  max-width: 22px;
+  min-height: 19px;
+  appearance: none;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  padding: 0;
+}
+
+.place__like-button:hover {
+  opacity: .5;
+}
+
+.place__like-button:active {
+  background: #000;
+}

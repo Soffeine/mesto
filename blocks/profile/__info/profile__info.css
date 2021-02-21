@@ -1,0 +1,15 @@
+.profile__info {
+  width: 562px;
+}
+
+@media screen and (max-width:900px) {
+  .profile__info {
+    width: 62vw;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .profile__info {
+    width: 100%;
+  }
+}

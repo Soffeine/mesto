@@ -1,0 +1,25 @@
+.place {
+  margin: 0 auto;
+  max-width: 282px;
+  max-height: 361px;
+  background-color: white;
+  border-radius: 10px;
+}
+
+@media screen and (max-width:900px) {
+  .place {
+    width: 30vw;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .place {
+    width: 42vw;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .place {
+    width: 100%;
+  }
+}
