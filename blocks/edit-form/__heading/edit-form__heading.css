@@ -1,0 +1,16 @@
+.edit-form__heading {
+  width: 330px;
+  color: #000;
+  margin: 34px 64px 0 36px;
+  font-size: 24px;
+  font-weight: 900;
+  line-height: 122%;
+  text-align: left;
+}
+
+@media screen and (max-width: 550px) {
+  .edit-form__heading {
+    width: 74vw;
+    font-size: 18px;
+  }
+}

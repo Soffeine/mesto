@@ -1,0 +1,29 @@
+.close-button {
+  width: 40px;
+  max-height: 40px;
+  background: transparent;
+  border: none;
+  position:absolute;
+  top: -35px;
+  right: -35px;
+  cursor: pointer;
+  }
+
+@media screen and (max-width: 550px) {
+    .close-button {
+    width: 9vw;
+    position:absolute;
+    top: -63px;
+    right: 10px;
+    }
+}
+
+@media screen and (max-width: 320px) {
+  .close-button {
+    width: 9vw;
+    position:absolute;
+    top: -63px;
+    right: 30px;
+  }
+}
+  

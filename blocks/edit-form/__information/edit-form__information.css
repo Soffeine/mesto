@@ -1,0 +1,18 @@
+.edit-form__information {
+    margin: 0 auto;
+    width: 358px;
+    outline: none;
+    border: 1px solid rgba(0, 0, 0, .2);
+    border-right: none;
+    border-top: none;
+    border-left: none;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 122%;
+  }
+
+@media screen and (max-width: 550px) {
+  .edit-form__information {
+    width: 74vw;  
+  }
+}

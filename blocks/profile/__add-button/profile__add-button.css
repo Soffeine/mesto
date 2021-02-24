@@ -7,6 +7,7 @@
   background: none;
   padding: 0;
   align-self: center;
+  cursor: pointer;
 }
 
 .profile__add-button:hover {

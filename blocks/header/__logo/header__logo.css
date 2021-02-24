@@ -3,12 +3,10 @@
   max-height: 33px;
 }
 
-.header__logo:hover {
-  opacity: 0;
-}
-
 @media screen and (max-width: 320px) {
   .header__logo {
     width: 32vw;
+    margin-left: 27px;
+    margin-bottom: 31px;
   }
 }

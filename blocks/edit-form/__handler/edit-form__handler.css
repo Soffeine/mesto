@@ -1,0 +1,13 @@
+.edit-form__handler {
+  max-width: 358px;
+  margin: 0 auto;
+  background-color: #000;
+  margin: 0 auto 37px;
+  border: none;
+}
+
+@media screen and (max-width: 550px) {
+  .edit-form__handler {
+    width: 74vw;
+  }
+}

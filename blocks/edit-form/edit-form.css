@@ -1,0 +1,5 @@
+.edit-form:focus {
+  outline: none;
+  border: 1px solid steelblue;
+  width: 100%;
+}

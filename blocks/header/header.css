@@ -1,6 +1,6 @@
 .header {
   max-width: 880px;
-  min-height: 74px;
+  max-height: 74px;
   margin: 45px auto 0;
   display: flex;
   justify-content: flex-start;
@@ -13,6 +13,6 @@
 
 @media screen and (max-width:900px) {
   .header {
-    width: 94vw;
+    width: 98vw;
   }
 }
