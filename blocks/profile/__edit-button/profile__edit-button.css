@@ -3,8 +3,7 @@
   height: 24px;
   align-self:center;
   appearance: none;
-  border: 0;
-  border-radius: 0;
+  border: none;
   background: none;
   padding: 0;
   cursor: pointer;
@@ -15,8 +14,11 @@
   opacity: .6;
 }
 
-@media screen and (max-width: 320px) {
+@media screen and (max-width: 440px) {
   .profile__edit-button {
+    width: 18px;
+    height: 18px;
     margin-left: 0;
+    margin-top: 0;
   }
 }

@@ -1,19 +1,26 @@
 .edit-form__save-button {
-  width: 358px;
+  min-width: 358px;
+  min-height: 50px;
+  margin: 0 auto 37px; 
   appearance: none;
-  border: 0;
-  border-radius: 0;
-  background: none;
+  border: none;
+  background: #000;
   padding: 0;
   font-size: 14px;
   color: #fff;
   font-weight: 400;
   text-align: center;
   cursor: pointer;
+  border-radius: 2px;
+}
+
+.edit-form__save-button:hover {
+  opacity: .8;
 }
 
 @media screen and (max-width: 550px) {
   .edit-form__save-button {
-    width: 74vw;
+    min-width: 74vw;
+    font-size: 14px;
   }
 }
