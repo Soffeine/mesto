@@ -6,6 +6,7 @@
   background: none;
   padding: 0;
   align-self: center;
+  border: 2px solid #fff;
   cursor: pointer;
 }
 
@@ -19,7 +20,7 @@
   }
 }
 
-@media screen and (max-width:640px) {
+@media screen and (max-width:440px) {
   .profile__add-button {
     width: 89vw;
   }

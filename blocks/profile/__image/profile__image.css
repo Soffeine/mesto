@@ -14,5 +14,6 @@
   .profile__image {
     width: 50vw;
     margin-bottom: 22px;
+    margin-right: 0;
   }
 }
