@@ -1,11 +1,13 @@
 .popup__close-button {
-  width: 40px;
-  max-height: 40px;
   background: transparent;
+  background-image: url(../../../images/close-button.svg);
+  background-size: cover;
+  width: 40px;
+  height: 40px;
   border: none;
-  position:absolute;
-  top: -50px;
-  right: -20px;
+  position: absolute;
+  top: -40px;
+  right: -40px;
   cursor: pointer;
 }
 
@@ -18,14 +20,14 @@
     width: 26px;
     height: 26px;
     position:absolute;
-    top: -63px;
+    top: -36px;
     right: 10px;
   }
 }
 
 @media screen and (max-width: 440px) {
   .popup__close-button {
-    right: 30px;
+    right: 0;
   }
 }
   
