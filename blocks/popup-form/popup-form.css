@@ -1,10 +1,10 @@
-.edit-form {
+.popup-form {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.edit-form:focus {
+.popup-form:focus {
   outline: none;
   border: 1px solid steelblue;
   width: 100%;

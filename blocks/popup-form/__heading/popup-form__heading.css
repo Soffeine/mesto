@@ -1,4 +1,4 @@
-.edit-form__heading {
+.popup-form__heading {
   width: 330px;
   color: #000;
   margin: 34px 64px 54px 36px;
@@ -9,7 +9,7 @@
 }
 
 @media screen and (max-width: 550px) {
-  .edit-form__heading {
+  .popup-form__heading {
     width: 74vw;
     font-size: 18px;
   }

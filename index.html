@@ -20,76 +20,25 @@
         <img src="./images/profile__image.JPG" class="profile__image" alt="Фото профиля">
         <div class="profile__info">
           <h1 class="profile__name" id="name">Жак-Ив Кусто</h1>
-          <button type="button" class="profile__edit-button">
-
-          </button>
+          <button type="button" class="profile__edit-button"></button>
           <p class="profile__description" id="description">Исследователь океана</p>
         </div>
         <button type="button" class="profile__add-button">
           <img src="./images/add__button.svg" alt="Добавить фото">
         </button>
       </section>
-
+    
       <section class="places">
-        <div class="place">
-          <img src="./images/Athens.JPG" class="place__image" alt="Афины">
-          <div class="place__caption">
-            <h2 class="place__title">Афины, Греция</h2>
-            <button type="button" class="place__like-button">
-              <img src="./images/like-button.svg" class="place__like-button" alt="Нравится">
-            </button>
+        <template id="place-card">
+          <div class="place">
+            <img class="place__image" alt="фото Места">
+            <button type="button" class="place__delete-button"></button>
+            <div class="place__caption">
+              <h2 class="place__title"></h2>
+              <button type="button" class="place__like-button"></button>
+            </div>
           </div>
-        </div>
-
-        <div class="place">
-          <img src="./images/Istanbul.JPG" class="place__image" alt="Стамбул">
-          <div class="place__caption">
-            <h2 class="place__title">Стамбул, Турция</h2>
-            <button type="button" class="place__like-button">
-              <img src="./images/like-button.svg" class="place__like-button" alt="Нравится">
-            </button>
-          </div>
-        </div>
-
-        <div class="place">
-          <img src="./images/teriberka.JPG" class="place__image" alt="Териберка">
-          <div class="place__caption">
-            <h2 class="place__title">Териберка, Россия</h2>
-            <button type="button" class="place__like-button">
-              <img src="./images/like-button.svg" class="place__like-button" alt="Нравится">
-            </button>
-          </div>
-        </div>
-
-        <div class="place">
-          <img src="./images/Beijing.JPG" class="place__image" alt="Пекин">
-          <div class="place__caption">
-            <h2 class="place__title">Пекин, Китай</h2>
-            <button type="button" class="place__like-button">
-              <img src="./images/like-button.svg" class="place__like-button" alt="Нравится">
-            </button>
-          </div>
-        </div>
-
-        <div class="place">
-          <img src="./images/Shanghai.JPG" class="place__image" alt="Шанхай">
-          <div class="place__caption">
-            <h2 class="place__title">Шанхай, Китай</h2>
-            <button type="button" class="place__like-button">
-              <img src="./images/like-button.svg" class="place__like-button" alt="Нравится">
-            </button>
-          </div>
-        </div>
-
-        <div class="place">
-          <img src="./images/Suzhou.JPG" class="place__image" alt="Сучжоу">
-          <div class="place__caption">
-            <h2 class="place__title">Сучжоу, Китай</h2>
-            <button type="button" class="place__like-button">
-              <img src="./images/like-button.svg" class="place__like-button" alt="Нравится">
-            </button>
-          </div>
-        </div>
+        </template>
       </section>
 
     </main>
@@ -97,21 +46,44 @@
     <footer class="footer">
       <p class="footer__copyright">&copy; 2021 Mesto Russia</p>
     </footer>
-
-    <div class="popup">
-      <div class="popup__container">
-        <button type="button" class="popup__close-button"></button>
-        <form class="edit-form" name="form">
-          <h2 class="edit-form__heading">Редактировать профиль</h2>
-          <input type="text" id="input-name" class="edit-form__information edit-form__information_input_name"
-            placeholder="Имя" name="input-name" required>
-          <input type="text" id="input-description"
-            class="edit-form__information edit-form__information_input_description" placeholder="Чем вы занимаетесь?"
-            name="input-description" required>
-          <button type="submit" class="edit-form__save-button">Сохранить</button>
-        </form>
+      <div class="popup-edit">
+        <div class="popup__container">
+          <button type="button" class="popup-edit__close-button"></button>
+          <form class="popup-form" name="form" id="popup-edit-form">
+            <h2 class="popup-form__heading">Редактировать профиль</h2>
+            <input type="text" id="input-name" class="popup-form__information popup-form__information_input_name"
+              placeholder="Имя" name="input-name" required>
+            <input type="text" id="input-description"
+              class="popup-form__information popup-form__information_input_description" placeholder="Чем вы занимаетесь?"
+              name="input-description" required>
+            <button type="submit" class="popup-form__save-button">Сохранить</button>
+          </form>
+        </div>
       </div>
-    </div>
+    
+
+      <div class="popup-add">
+        <div class="popup__container">
+          <button type="button" class="popup-add__close-button"></button>
+          <form class="popup-form" name="form" id="popup-add-form">
+            <h2 class="popup-form__heading">Новое место</h2>
+            <input type="text" id="input-place" class="popup-form__information popup-form__information_input_name"
+              placeholder="Название" name="input-place" required>
+            <input type="text" id="input-image" class="popup-form__information popup-form__information_input_link-image"
+              placeholder="Ссылка на картинку" name="input-image" required>
+            <button type="submit" class="popup-form__save-button">Создать</button>
+          </form>
+        </div>
+      </div>
+      
+      <div class="popup-image">
+        <div class="popup-image__container">
+          <button type="button" class="popup-image__close-button"></button>
+          <img class="popup-image__picture">
+          <p class="popup-image__caption"></p>
+        </div>
+      </div>
+
   </div>
   <script src="./script/script.js"></script>
 </body>

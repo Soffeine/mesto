@@ -3,4 +3,5 @@
   margin: 25px auto 31px;
   display: flex;
   justify-content: space-between;
+  border: 1px solid yellowgreen;
 }

@@ -1,4 +1,4 @@
-.edit-form__information {
+.popup-form__information {
   min-width: 358px;
   display: flex;
   flex-direction: column;
@@ -18,13 +18,13 @@
   line-height: 122%;
 }
 
-.edit-form__information:last-child {
+.popup-form__information:last-child {
   margin-bottom: 0;
 }
 
 
 @media screen and (max-width: 550px) {
-  .edit-form__information {
+  .popup-form__information {
     min-width: 74vw;  
   }
 }
