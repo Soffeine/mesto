@@ -6,7 +6,6 @@ let inputName = document.querySelector('#input-name');
 let description = document.querySelector('.profile__description');
 let inputDescription = document.querySelector('#input-description');
 
-
 editButton.addEventListener('click', function (evt){
   popupEdit.classList.add('popup-edit_opened');
   inputName.value = name.textContent;
@@ -18,7 +17,7 @@ closeEditForm.addEventListener('click', function closeEditForm(evt){
   popupEdit.classList.remove('popup-edit_opened');
 });
 
-let editForm = document.querySelector('#popup-edit-form');
+const editForm = document.querySelector('#popup-edit-form');
 editForm.addEventListener('submit', function(evt) {
   evt.preventDefault();
   name.textContent = inputName.value;
@@ -26,11 +25,11 @@ editForm.addEventListener('submit', function(evt) {
   popupEdit.classList.remove('popup-edit_opened');
 });
 
-let addButton = document.querySelector('.profile__add-button');
-let popupAdd = document.querySelector('.popup-add');
-let placeName = document.querySelector('#input-place');
-let placeImage = document.querySelector('#input-image');
-let closeAddform = document.querySelector('.popup-add__close-button')
+const addButton = document.querySelector('.profile__add-button');
+const popupAdd = document.querySelector('.popup-add');
+const addPlaceSubmitButton = document.querySelector('.popup-add__save-button');
+const closeAddform = document.querySelector('.popup-add__close-button');
+
 addButton.addEventListener('click', function(evt){
   popupAdd.classList.add('popup-add_opened');
 });
@@ -65,105 +64,48 @@ const initialPlaces = [
     link: src = './images/Suzhou.JPG'
   }
 ];
+
 const places = document.querySelector('.places');
 const cardTemplate = document.querySelector('#place-card').content;
 const popupFullImage = document.querySelector('.popup-image');
 const closePopupImageButton = document.querySelector('.popup-image__close-button');
 
-initialPlaces.forEach(function(element){
+initialPlaces.forEach(function (element){
   const placeElement = cardTemplate.cloneNode(true);
   placeElement.querySelector('.place__title').textContent = element.name;
   placeElement.querySelector('.place__image').src = element.link;
   placeElement.querySelector('.place__like-button').addEventListener('click', function(evt){
     evt.target.classList.toggle('place__like-button_active');
   });
-  placeElement.querySelector('.place__delete-button').addEventListener('click', function(evt){
-    evt.target.closest('.place').remove();
-  });
+
   placeElement.querySelector('.place__image').addEventListener('click', function(evt){
     popupFullImage.classList.add('popup-image_opened');
+    const parent = evt.target.parentNode;
+    const titleElement = parent.querySelector('.place__title');
     let picture = document.querySelector('.popup-image__picture');
     let caption = document.querySelector('.popup-image__caption');
     picture.src = evt.target.src;
-    caption.textContent = evt.target.textContent /* !!!!! */
+    caption.textContent = titleElement.textContent;
     closePopupImageButton.addEventListener('click', function(){
       popupFullImage.classList.remove('popup-image_opened');
     });
   });
 
+  placeElement.querySelector('.place__delete-button').addEventListener('click', function(evt){
+    evt.target.closest('.place').remove();
+  });
   places.append(placeElement);
+
+  const inputPlaceName = document.querySelector('.popup-form__information_input_place-name');
+  const inputPlaceImage = document.querySelector('.popup-form__information_input_link-image');
+  const addForm = document.querySelector('#popup-add-form');
+  addForm.addEventListener('submit', function(evt){
+    evt.preventDefault();
+    const newPlace = cardTemplate.cloneNode(true);
+    const newPlaceName = newPlace.querySelector('.place__title');
+    const newPlaceImage = newPlace.querySelector('.place__image');
+    newPlaceName.textContent = inputPlaceName.value;
+    newPlaceImage.src = inputPlaceImage.value;
+    places.prepend(newPlace);
+    });
 });
-/*
-let addForm = document.querySelector('#popup-add-form');
-let addCaption = document.querySelector('#input-place');
-let addPicture = document.querySelector('#input-image');
-
-function addNewPlace(name, link){
-  const newPlaceElement = cardTemplate.cloneNode(true);
-	const caption = newPlaceElement.querySelector('.place__title');
-	caption.textContent = newPlaceElement.name;
-  const picture = newPlaceElement.querySelector('.place__image');
-  picture = newPlaceElement.link;
-	return newPlaceElement;
-}
-
-function addTaskFormListener(evt) {
-	evt.preventDefault();
-	const input = todoForm.querySelector('.todo__input');
-	const inputTitle = input.value;
-
-	const newTask = createTaskDomNode({ title: inputTitle });
-
-	addTaskListeners(newTask);
-
-	container.prepend(newTask);
-
-	input.value = '';
-}
-
-  
-
-
-
-
-
-
-
-
-
-function createTaskDomNode(item){
-	const newItem = templateElement.content.cloneNode(true);
-	const title = newItem.querySelector('.task__name');
-	title.textContent = item.title;
-
-	return newItem;
-}
-
-function renderList() {
-	const result = TODO_LIST.map(function(item) {
-		const newTask = createTaskDomNode(item);
-		addTaskListeners(newTask);
-		return newTask;
-	});
-
-	container.append(...result);
-}
-
-function addTaskFormListener(evt) {
-	evt.preventDefault();
-	const input = todoForm.querySelector('.todo__input');
-	const inputTitle = input.value;
-
-	const newTask = createTaskDomNode({ title: inputTitle });
-
-	addTaskListeners(newTask);
-
-	container.prepend(newTask);
-
-	input.value = '';
-}
-
-renderList();
-todoForm.addEventListener('submit', addTaskFormListener);
-
-*/
