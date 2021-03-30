@@ -1,6 +1,6 @@
 .place {
   margin: 0 auto;
-  max-width: 282px;
+  min-width: 282px;
   background-color: white;
   border-radius: 10px;
   position: relative;
@@ -8,7 +8,7 @@
 
 @media screen and (max-width:900px) {
   .place {
-    width: 30vw;
+    min-width: 30vw;
   }
 }
 
