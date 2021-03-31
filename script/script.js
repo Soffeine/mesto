@@ -68,41 +68,38 @@ const initialPlaces = [
 const places = document.querySelector(".places");
 const cardTemplate = document.querySelector("#place-card").content;
 const popupFullImage = document.querySelector(".popup-image");
-const closePopupImageButton = document.querySelector(
-  ".popup-image__close-button"
-);
+const closePopupImageButton = document.querySelector(".popup-image__close-button");
 
+
+function deletePlace(evt) {
+	const target = evt.target;
+	const targetPlace = target.closest('.place');
+	targetPlace.remove();
+}
+
+function toggleLike(evt) {
+  const target = evt.target;
+  target.classList.toggle('place__like-button_active');
+}
+
+function showFullImage (evt) {
+  popupFullImage.classList.add("popup__image_opened"); //открывается попап
+  const parent = evt.target.closest('.place'); //нашлась карточка со всем содержимым
+  const titleElement = parent.querySelector(".place__title"); //нашелся кэпшн
+  let picture = document.querySelector(".popup-image__picture"); //нашлось место для картинки в попапе
+  let caption = document.querySelector(".popup-image__caption"); //нашлось место для кэпшена в попапе
+  picture.src = evt.target.src; //присваивание значения картинки в попапе
+  caption.textContent = titleElement.textContent; //присваивание значения кэпшена в попапе
+}
 
 initialPlaces.forEach(function (element) {
   const placeElement = cardTemplate.cloneNode(true);
   placeElement.querySelector(".place__title").textContent = element.name;
   placeElement.querySelector(".place__image").src = element.link;
-  placeElement
-    .querySelector(".place__like-button")
-    .addEventListener("click", function toggleLike (evt) {
-      evt.target.classList.toggle("place__like-button_active");
-    });
-
-  placeElement
-    .querySelector(".place__image")
-    .addEventListener("click", function showFullImage (evt) {
-      popupFullImage.classList.add("popup-image_opened");
-      const parent = evt.target.parentNode;
-      const titleElement = parent.querySelector(".place__title");
-      let picture = document.querySelector(".popup-image__picture");
-      let caption = document.querySelector(".popup-image__caption");
-      picture.src = evt.target.src;
-      caption.textContent = titleElement.textContent;
-      closePopupImageButton.addEventListener("click", function () {
-        popupFullImage.classList.remove("popup-image_opened");
-      });
-    });
-
-  placeElement
-    .querySelector(".place__delete-button")
-    .addEventListener("click", function deleteImage (evt) {
-      evt.target.closest(".place").remove();
-    });
+  placeElement.querySelector(".place__like-button").addEventListener("click", toggleLike);
+  placeElement.querySelector(".place__image").addEventListener("click", showFullImage);
+  placeElement.querySelector(".place__delete-button").addEventListener("click", deletePlace);
+  
   places.append(placeElement);
 });
 
@@ -121,18 +118,10 @@ addForm.addEventListener("submit", function (evt) {
   newPlaceName.textContent = inputPlaceName.value;
   newPlaceImage.src = inputPlaceImage.value;
 
-  newPlace
-  .querySelector(".place__like-button")
-  .addEventListener("click", function toggleLike (evt) {
-    evt.target.classList.toggle("place__like-button_active");
-  });
+  newPlace.querySelector(".place__like-button").addEventListener("click", toggleLike);
+  newPlace.querySelector(".place__delete-button").addEventListener("click", deletePlace);
+  newPlace.querySelector('.place__image').addEventListener("click", showFullImage);
 
-  newPlace
-  .querySelector(".place__delete-button")
-  .addEventListener("click", function deleteImage (evt) {
-    evt.target.closest(".place").remove();
-  });
-  
   places.prepend(newPlace);
   popupAdd.classList.remove("popup-add_opened");
 });
