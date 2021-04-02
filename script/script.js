@@ -83,14 +83,18 @@ function toggleLike(evt) {
 }
 
 function showFullImage(evt) {
-  popupFullImage.classList.add('popup__image_opened'); //открывается попап
-  const parent = evt.target.closest('.place'); //нашлась карточка со всем содержимым
-  const titleElement = parent.querySelector('.place__title'); //нашелся кэпшн
-  let picture = document.querySelector('.popup-image__picture'); //нашлось место для картинки в попапе
-  let caption = document.querySelector('.popup-image__caption'); //нашлось место для кэпшена в попапе
-  picture.src = evt.target.src; //присваивание значения картинки в попапе
-  caption.textContent = titleElement.textContent; //присваивание значения кэпшена в попапе
+  popupFullImage.classList.add('popup-image_opened');
+  const parent = evt.target.closest('.place');
+  const titleElement = parent.querySelector('.place__title');
+  let picture = document.querySelector('.popup-image__picture');
+  let caption = document.querySelector('.popup-image__caption');
+  picture.src = evt.target.src;
+  caption.textContent = titleElement.textContent;
 }
+
+closePopupImageButton.addEventListener('click', function (evt) {
+  popupFullImage.classList.remove('popup-image_opened');
+});
 
 initialPlaces.forEach(function (element) {
   const placeElement = cardTemplate.cloneNode(true);
