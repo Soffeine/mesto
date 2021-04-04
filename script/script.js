@@ -5,21 +5,20 @@ const name = document.querySelector('.profile__name');
 const inputName = document.querySelector('#input-name');
 const description = document.querySelector('.profile__description');
 const inputDescription = document.querySelector('#input-description');
+
+const popup = document.querySelector('.popup');
 const popupAdd = document.querySelector('.popup-add');
 const popupEdit = document.querySelector('.popup-edit');
 
-function openPopup () {
-  const popup = document.querySelector('.popup');
+function openPopup (item) {
   popup.classList.add('popup_opened');
 }
 
-function closePopup () {
-  const popup = document.querySelector('.popup');
+function closePopup (item) {
   popup.classList.remove('popup_opened');
 }
 
-const closeButton = document.querySelector('.popup__close-button');
-closeButton.addEventListener('click', closePopup());
+const closeButton = document.querySelectorAll('.popup__close-button');
 
 editButton.addEventListener('click', function (evt) {
   openPopup(popupEdit);
@@ -36,6 +35,7 @@ editForm.addEventListener('submit', function (evt) {
 });
 
 addButton.addEventListener('click', openPopup(popupAdd));
+
 const initialPlaces = [
   {
     name: 'Афины, Греция',
