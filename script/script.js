@@ -1,20 +1,30 @@
-let page = document.querySelector('.page');
-let popupEdit = document.querySelector('.popup-edit');
-let editButton = document.querySelector('.profile__edit-button');
-let name = document.querySelector('.profile__name');
-let inputName = document.querySelector('#input-name');
-let description = document.querySelector('.profile__description');
-let inputDescription = document.querySelector('#input-description');
+const page = document.querySelector('.page');
+const editButton = document.querySelector('.profile__edit-button');
+const addButton = document.querySelector('.profile__add-button')
+const name = document.querySelector('.profile__name');
+const inputName = document.querySelector('#input-name');
+const description = document.querySelector('.profile__description');
+const inputDescription = document.querySelector('#input-description');
+const popupAdd = document.querySelector('.popup-add');
+const popupEdit = document.querySelector('.popup-edit');
+
+function openPopup () {
+  const popup = document.querySelector('.popup');
+  popup.classList.add('popup_opened');
+}
+
+function closePopup () {
+  const popup = document.querySelector('.popup');
+  popup.classList.remove('popup_opened');
+}
+
+const closeButton = document.querySelector('.popup__close-button');
+closeButton.addEventListener('click', closePopup());
 
 editButton.addEventListener('click', function (evt) {
-  popupEdit.classList.add('popup-edit_opened');
+  openPopup(popupEdit);
   inputName.value = name.textContent;
   inputDescription.value = description.textContent;
-});
-
-let closeEditForm = document.querySelector('.popup-edit__close-button');
-closeEditForm.addEventListener('click', function closeEditForm(evt) {
-  popupEdit.classList.remove('popup-edit_opened');
 });
 
 const editForm = document.querySelector('#popup-edit-form');
@@ -22,22 +32,10 @@ editForm.addEventListener('submit', function (evt) {
   evt.preventDefault();
   name.textContent = inputName.value;
   description.textContent = inputDescription.value;
-  popupEdit.classList.remove('popup-edit_opened');
+  popupEdit.classList.remove('popup_opened');
 });
 
-const addButton = document.querySelector('.profile__add-button');
-const popupAdd = document.querySelector('.popup-add');
-const addPlaceSubmitButton = document.querySelector('.popup-add__save-button');
-const closeAddFormButton = document.querySelector('.popup-add__close-button');
-
-addButton.addEventListener('click', function (evt) {
-  popupAdd.classList.add('popup-add_opened');
-});
-
-closeAddFormButton.addEventListener('click', function closeAddForm(evt) {
-  popupAdd.classList.remove('popup-add_opened');
-});
-
+addButton.addEventListener('click', openPopup(popupAdd));
 const initialPlaces = [
   {
     name: 'Афины, Греция',
@@ -68,7 +66,7 @@ const initialPlaces = [
 const places = document.querySelector('.places');
 const cardTemplate = document.querySelector('#place-card').content;
 const popupFullImage = document.querySelector('.popup-image');
-const closePopupImageButton = document.querySelector('.popup-image__close-button');
+const closePopupImageButton = document.querySelector('.popup__close-button');
 
 
 function deletePlace(evt) {
@@ -83,7 +81,7 @@ function toggleLike(evt) {
 }
 
 function showFullImage(evt) {
-  popupFullImage.classList.add('popup-image_opened');
+  popupFullImage.classList.add('popup_opened');
   const parent = evt.target.closest('.place');
   const titleElement = parent.querySelector('.place__title');
   let picture = document.querySelector('.popup-image__picture');
@@ -91,9 +89,9 @@ function showFullImage(evt) {
   picture.src = evt.target.src;
   caption.textContent = titleElement.textContent;
 }
-
+//check this
 closePopupImageButton.addEventListener('click', function (evt) {
-  popupFullImage.classList.remove('popup-image_opened');
+  popupFullImage.classList.remove('popup_opened'); 
 });
 
 initialPlaces.forEach(function (element) {
