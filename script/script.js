@@ -34,8 +34,8 @@ addButton.addEventListener('click', () => openPopup(popupAdd));
 function showFullImage(evt) {
   const parent = evt.target.closest('.place');
   const titleElement = parent.querySelector('.place__title');
-  let picture = document.querySelector('.popup-image__picture');
-  let caption = document.querySelector('.popup-image__caption');
+  const picture = document.querySelector('.popup-image__picture');
+  const caption = document.querySelector('.popup-image__caption');
   picture.src = evt.target.src;
   caption.textContent = titleElement.textContent;
   openPopup(popupFullImage);
@@ -106,16 +106,18 @@ function toggleLike(evt) {
 }
 function createPlace(element) {
   const placeElement = cardTemplate.cloneNode(true);
+  placeElement.querySelector('.place__title').textContent = element.name;
+  placeElement.querySelector('.place__image').src = element.link;
   placeElement.querySelector('.place__like-button').addEventListener('click', toggleLike);
   placeElement.querySelector('.place__image').addEventListener('click', showFullImage);
   placeElement.querySelector('.place__delete-button').addEventListener('click', deletePlace);
+  
   return placeElement;
 }
 
 initialPlaces.forEach(function (element) {
   const placeElement = createPlace(element);
-  placeElement.querySelector('.place__title').textContent = element.name;
-  placeElement.querySelector('.place__image').src = element.link;
+
   places.append(placeElement);
 });
 
@@ -127,11 +129,15 @@ const inputPlaceImage = document.querySelector(
 );
 const addForm = document.querySelector('#popup-add-form');
 
-addForm.addEventListener('submit', (evt, element) => {
+addForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
-  const newPlace = createPlace(element);
-  newPlace.querySelector('.place__title').textContent = inputPlaceName.value;
-  newPlace.querySelector('.place__image').src = inputPlaceImage.value;
+  const name = inputPlaceName.value;
+  const imageLink = inputPlaceImage.value
+  const cardData = {
+    name: name,
+    link: imageLink
+  };
+  const newPlace = createPlace(cardData);
   places.prepend(newPlace);
   closePopup(popupAdd);
   addForm.reset();
