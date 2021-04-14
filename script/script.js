@@ -57,6 +57,23 @@ closeEdit.addEventListener('click', () => closePopup(popupEdit));
 closeImage.addEventListener('click', () => closePopup(popupFullImage));
 closeAdd.addEventListener('click', () => closePopup(popupAdd));
 
+//закрытие попапов через esc
+document.addEventListener('keydown', closePopupEcs);
+function closePopupEcs (evt) {
+  if (evt.keyCode === 27) {
+    const currentPopup = document.querySelector('.popup_opened');
+    closePopup(currentPopup);
+  }
+}
+// закрытие попапов через overlay
+document.addEventListener('click', closePopupOverlay);
+function closePopupOverlay (evt) {
+  if(evt.target.classList.contains('popup')) {
+    const currentPopup = document.querySelector('.popup_opened');
+    closePopup(currentPopup);
+  }
+}
+
 //сабмит редактирования профиля
 editForm.addEventListener('submit', function (evt) {
   evt.preventDefault();
@@ -166,13 +183,13 @@ function showError(input) {
   const validity = input.validity;
   const isValid = input.checkValidity();
   if(validity.tooShort || validity.tooLong) {
-    input.classList.add('popup__information_error');
+    input.classList.add('popup-form__information_error');
     highlightFieldError;
   } else if (validity.typeMismatch && input.type === 'url') {
     highlightFieldError;
-    input.classList.add('popup__information_error');
+    input.classList.add('popup-form__information_error');
   } else if (isValid) {
-    input.classList.remove('popup__information_error');
+    input.classList.remove('popup-form__information_error');
   }
 }
 
