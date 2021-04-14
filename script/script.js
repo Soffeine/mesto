@@ -2,13 +2,20 @@ const page = document.querySelector('.page');
 const editButton = document.querySelector('.profile__edit-button');
 const addButton = document.querySelector('.profile__add-button')
 const name = document.querySelector('.profile__name');
-const inputName = document.querySelector('#input-name');
 const description = document.querySelector('.profile__description');
-const inputDescription = document.querySelector('#input-description');
 
 const popupEdit = document.querySelector('.popup-edit');
 const popupAdd = document.querySelector('.popup-add');
 const popupFullImage = document.querySelector('.popup-image');
+
+
+const editForm = document.forms.editForm;
+const inputName = editForm.elements.inputName;
+const inputDescription = editForm.elements.inputDescription;
+
+const addForm = document.forms.addForm;
+const inputPlaceName = addForm.elements.inputPlaceName;
+const inputPlaceImage = addForm.elements.inputPlaceImage;
 
 //функция открытия попапа
 function openPopup (item) {
@@ -51,7 +58,6 @@ closeImage.addEventListener('click', () => closePopup(popupFullImage));
 closeAdd.addEventListener('click', () => closePopup(popupAdd));
 
 //сабмит редактирования профиля
-const editForm = document.querySelector('#popup-edit-form');
 editForm.addEventListener('submit', function (evt) {
   evt.preventDefault();
   name.textContent = inputName.value;
@@ -104,6 +110,8 @@ function toggleLike(evt) {
   const target = evt.target;
   target.classList.toggle('place__like-button_active');
 }
+
+//создание карточки на странице
 function createPlace(element) {
   const placeElement = cardTemplate.cloneNode(true);
   placeElement.querySelector('.place__title').textContent = element.name;
@@ -115,20 +123,13 @@ function createPlace(element) {
   return placeElement;
 }
 
+//метод форыч, вот чтоб все карточки вели себя правильно
 initialPlaces.forEach(function (element) {
   const placeElement = createPlace(element);
-
   places.append(placeElement);
 });
 
-const inputPlaceName = document.querySelector(
-'.popup-form__information_input_place-name'
-);
-const inputPlaceImage = document.querySelector(
-  '.popup-form__information_input_link-image'
-);
-const addForm = document.querySelector('#popup-add-form');
-
+//сабмит добавления нового фото
 addForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
   const name = inputPlaceName.value;
@@ -142,3 +143,66 @@ addForm.addEventListener('submit', (evt) => {
   closePopup(popupAdd);
   addForm.reset();
 });
+
+const validationConfig = {
+  popupAdd: '.popup-add',
+  popupEdit: '.popup-edit',
+  popupInput: '.popup-form__information',
+  submitButtonInvalid: '.popup__save-button_invalid',
+  submitButtonValid: '.popup__save-button_valid',
+  inputError: '.popup__error-message',
+  inputError: '.popup__error-message_active'
+}
+
+// Функция для копирования текста ошибки из свойства поля ввода в span под ним.
+function highlightFieldError(field) {
+  const errorSpan = field.nextElementSibling;
+  errorSpan.textContent = field.validationMessage;
+}
+
+//функция показа ошибки
+function showError(input) {
+  const validity = input.validity;
+  if(validity.tooShort || validity.tooLong) {
+    input.classList.add('popup__information_error');
+    input.setCustomValidity;
+  } else if (validity.typeMismatch && input.type === 'url') {
+    input.setCustomValidity;
+    input.classList.add('popup__information_error');
+  }
+}
+
+//функция изменения кнопки
+function toggleButtonState(form) {
+  const button = document.querySelector(validationConfig.submitButtonInvalid);
+  const isValid = form.checkValidity();
+  if (isValid) {
+    button.removeAttribute('disabled');
+    button.classList.add('popup__save-button_valid');
+    button.classList.remove('popup__save-button_invalid');
+  } else {
+    button.setAttribute('disabled', true);
+    button.classList.remove('popup__button_valid');
+    button.classList.add('popup__button_invalid');
+  }
+}
+
+// caбмит инпутов формы добавления карточки
+addForm.addEventListener('input', function (evt){
+  const input = evt.target;
+  const form = evt.currentTarget;
+  highlightFieldError(input);
+  showError(input);
+  toggleButtonState(form);
+});
+
+//сабмит инпутов формы редактирования профиля
+editForm.addEventListener('input', function (evt){
+  const input = evt.target;
+  const form = evt.currentTarget;
+  highlightFieldError(input);
+  showError(input);
+  toggleButtonState(form);
+})
+
+
