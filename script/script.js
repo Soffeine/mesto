@@ -148,6 +148,7 @@ const validationConfig = {
   popupAdd: '.popup-add',
   popupEdit: '.popup-edit',
   popupInput: '.popup-form__information',
+  submitButton: '.popup__button',
   submitButtonInvalid: '.popup__save-button_invalid',
   submitButtonValid: '.popup__save-button_valid',
   inputError: '.popup__error-message',
@@ -163,18 +164,21 @@ function highlightFieldError(field) {
 //функция показа ошибки
 function showError(input) {
   const validity = input.validity;
+  const isValid = input.checkValidity();
   if(validity.tooShort || validity.tooLong) {
     input.classList.add('popup__information_error');
-    input.setCustomValidity;
+    highlightFieldError;
   } else if (validity.typeMismatch && input.type === 'url') {
-    input.setCustomValidity;
+    highlightFieldError;
     input.classList.add('popup__information_error');
+  } else if (isValid) {
+    input.classList.remove('popup__information_error');
   }
 }
 
 //функция изменения кнопки
 function toggleButtonState(form) {
-  const button = document.querySelector(validationConfig.submitButtonInvalid);
+  const button = document.querySelector(validationConfig.submitButton);
   const isValid = form.checkValidity();
   if (isValid) {
     button.removeAttribute('disabled');
@@ -193,7 +197,7 @@ addForm.addEventListener('input', function (evt){
   const form = evt.currentTarget;
   highlightFieldError(input);
   showError(input);
-  toggleButtonState(form);
+  toggleButtonState(addForm);
 });
 
 //сабмит инпутов формы редактирования профиля
@@ -202,7 +206,7 @@ editForm.addEventListener('input', function (evt){
   const form = evt.currentTarget;
   highlightFieldError(input);
   showError(input);
-  toggleButtonState(form);
+  toggleButtonState(editForm);
 })
 
 
