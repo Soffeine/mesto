@@ -53,11 +53,11 @@
         <form class="popup-form" name="editForm" id="popup-edit-form" novalidate>
           <h2 class="popup-form__heading">Редактировать профиль</h2>
           <input type="text" id="input-name" class="popup-form__information popup-form__information_input_name"
-            placeholder="Имя" name="inputName" type="text" minlength="2" maxlength="20" required>
+            placeholder="Имя" name="inputName" minlength="2" maxlength="20" required>
           <span class="popup__error-message"></span>
           <input type="text" id="input-description"
             class="popup-form__information popup-form__information_input_description" placeholder="Чем вы занимаетесь?"
-            name="inputDescription" type="text" minlength="2" maxlength="200" required>
+            name="inputDescription" minlength="2" maxlength="200" required>
           <span class="popup__error-message"></span>
           <button type="submit" class="popup__button popup__save-button_invalid">Сохранить</button>
         </form>
@@ -71,7 +71,7 @@
         <form class="popup-form" name="addForm" id="popup-add-form" novalidate>
           <h2 class="popup-form__heading">Новое место</h2>
           <input type="text" id="input-place" class="popup-form__information popup-form__information_input_place-name"
-            placeholder="Название" name="inputPlaceName" type="text" minlength="2" maxlength="30" required>
+            placeholder="Название" name="inputPlaceName" minlength="2" maxlength="30" required>
           <span class="popup__error-message"></span>
           <input id="input-image" class="popup-form__information popup-form__information_input_link-image"
             placeholder="Ссылка на картинку" name="inputPlaceImage" type="url" required>
