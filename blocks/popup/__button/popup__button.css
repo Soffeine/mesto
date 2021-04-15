@@ -11,3 +11,10 @@
   cursor: pointer;
   border-radius: 2px;
 }
+
+@media screen and (max-width: 550px) {
+  .popup__save-button {
+    min-width: 74vw;
+    font-size: 14px;
+  }
+}

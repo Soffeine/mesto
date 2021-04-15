@@ -39,10 +39,10 @@ function toggleButtonState(form) {
     const isValid = form.checkValidity();
     if (isValid) {
         button.removeAttribute('disabled');
-        button.classList.add('popup__save-button_valid');
+        button.classList.add('popup__button_valid');
     } else {
         button.setAttribute('disabled', true);
-        button.classList.remove('popup__save-button_valid');
+        button.classList.remove('popup__button_valid');
     }
 }
 
