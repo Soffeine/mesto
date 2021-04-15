@@ -8,6 +8,15 @@ const popupEdit = document.querySelector('.popup-edit');
 const popupAdd = document.querySelector('.popup-add');
 const popupFullImage = document.querySelector('.popup-image');
 
+
+const editForm = document.forms.editForm;
+const inputName = editForm.elements.inputName;
+const inputDescription = editForm.elements.inputDescription;
+
+const addForm = document.forms.addForm;
+const inputPlaceName = addForm.elements.inputPlaceName;
+const inputPlaceImage = addForm.elements.inputPlaceImage;
+
 const initialPlaces = [
   {
     name: 'Афины, Греция',

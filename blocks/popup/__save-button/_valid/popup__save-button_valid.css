@@ -1,0 +1,15 @@
+.popup__save-button_valid {
+  background: #000;
+  color: #fff;
+}
+    
+.popup__save-button_valid:hover {
+  opacity: .8;
+}
+
+@media screen and (max-width: 550px) {
+    .popup__save-button_valid {
+      min-width: 74vw;
+      font-size: 14px;
+    }
+  }
