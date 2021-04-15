@@ -8,14 +8,32 @@ const popupEdit = document.querySelector('.popup-edit');
 const popupAdd = document.querySelector('.popup-add');
 const popupFullImage = document.querySelector('.popup-image');
 
-
-const editForm = document.forms.editForm;
-const inputName = editForm.elements.inputName;
-const inputDescription = editForm.elements.inputDescription;
-
-const addForm = document.forms.addForm;
-const inputPlaceName = addForm.elements.inputPlaceName;
-const inputPlaceImage = addForm.elements.inputPlaceImage;
+const initialPlaces = [
+  {
+    name: 'Афины, Греция',
+    link: (src = './images/Athens.JPG'),
+  },
+  {
+    name: 'Стамбул, Турция',
+    link: (src = './images/Istanbul.JPG'),
+  },
+  {
+    name: 'Териберка, Россия',
+    link: (src = './images/teriberka.JPG'),
+  },
+  {
+    name: 'Пекин, Китай',
+    link: (src = './images/Beijing.JPG'),
+  },
+  {
+    name: 'Шанхай, Китай',
+    link: (src = './images/Shanghai.JPG'),
+  },
+  {
+    name: 'Сучжоу, Китай',
+    link: (src = './images/Suzhou.JPG'),
+  },
+];
 
 //функция открытия попапа
 function openPopup (item) {
@@ -65,6 +83,7 @@ function closePopupEcs (evt) {
     closePopup(currentPopup);
   }
 }
+
 // закрытие попапов через overlay
 document.addEventListener('click', closePopupOverlay);
 function closePopupOverlay (evt) {
@@ -81,34 +100,6 @@ editForm.addEventListener('submit', function (evt) {
   description.textContent = inputDescription.value;
   closePopup(popupEdit);
 });
-
-
-const initialPlaces = [
-  {
-    name: 'Афины, Греция',
-    link: (src = './images/Athens.JPG'),
-  },
-  {
-    name: 'Стамбул, Турция',
-    link: (src = './images/Istanbul.JPG'),
-  },
-  {
-    name: 'Териберка, Россия',
-    link: (src = './images/teriberka.JPG'),
-  },
-  {
-    name: 'Пекин, Китай',
-    link: (src = './images/Beijing.JPG'),
-  },
-  {
-    name: 'Шанхай, Китай',
-    link: (src = './images/Shanghai.JPG'),
-  },
-  {
-    name: 'Сучжоу, Китай',
-    link: (src = './images/Suzhou.JPG'),
-  },
-];
 
 // Элемент, куда будем вставлять карточки.
 const places = document.querySelector('.places');
@@ -161,69 +152,6 @@ addForm.addEventListener('submit', (evt) => {
   addForm.reset();
 });
 
-const validationConfig = {
-  popupAdd: '.popup-add',
-  popupEdit: '.popup-edit',
-  popupInput: '.popup-form__information',
-  submitButton: '.popup__button',
-  submitButtonInvalid: '.popup__save-button_invalid',
-  submitButtonValid: '.popup__save-button_valid',
-  inputError: '.popup__error-message',
-  inputError: '.popup__error-message_active'
-}
 
-// Функция для копирования текста ошибки из свойства поля ввода в span под ним.
-function highlightFieldError(field) {
-  const errorSpan = field.nextElementSibling;
-  errorSpan.textContent = field.validationMessage;
-}
-
-//функция показа ошибки
-function showError(input) {
-  const validity = input.validity;
-  const isValid = input.checkValidity();
-  if(validity.tooShort || validity.tooLong) {
-    input.classList.add('popup-form__information_error');
-    highlightFieldError;
-  } else if (validity.typeMismatch && input.type === 'url') {
-    highlightFieldError;
-    input.classList.add('popup-form__information_error');
-  } else if (isValid) {
-    input.classList.remove('popup-form__information_error');
-  }
-}
-
-//функция изменения кнопки
-function toggleButtonState(form) {
-  const button = document.querySelector(validationConfig.submitButton);
-  const isValid = form.checkValidity();
-  if (isValid) {
-    button.removeAttribute('disabled');
-    button.classList.add('popup__save-button_valid');
-    button.classList.remove('popup__save-button_invalid');
-  } else {
-    button.setAttribute('disabled', true);
-    button.classList.remove('popup__button_valid');
-    button.classList.add('popup__button_invalid');
-  }
-}
-
-// caбмит инпутов формы добавления карточки
-addForm.addEventListener('input', function (evt){
-  const input = evt.target;
-  const form = evt.currentTarget;
-  highlightFieldError(input);
-  showError(input);
-  toggleButtonState(addForm);
-});
-
-//сабмит инпутов формы редактирования профиля
-editForm.addEventListener('input', function (evt){
-  const input = evt.target;
-  const form = evt.currentTarget;
-  highlightFieldError(input);
-  showError(input);
-  toggleButtonState(editForm);
-})
 
 
