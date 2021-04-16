@@ -1,8 +1,8 @@
 const page = document.querySelector('.page');
 const editButton = document.querySelector('.profile__edit-button');
 const addButton = document.querySelector('.profile__add-button')
-const name = document.querySelector('.profile__name');
-const description = document.querySelector('.profile__description');
+const profileNameElement = document.querySelector('.profile__name');
+const profileDescriptionElement = document.querySelector('.profile__description');
 
 const popupEdit = document.querySelector('.popup-edit');
 const popupAdd = document.querySelector('.popup-add');
@@ -20,58 +20,63 @@ const inputPlaceImage = addForm.elements.inputPlaceImage;
 const initialPlaces = [
   {
     name: 'Афины, Греция',
-    link: (src = './images/Athens.JPG'),
+    link: './images/Athens.JPG',
   },
   {
     name: 'Стамбул, Турция',
-    link: (src = './images/Istanbul.JPG'),
+    link: './images/Istanbul.JPG',
   },
   {
     name: 'Териберка, Россия',
-    link: (src = './images/teriberka.JPG'),
+    link: './images/teriberka.JPG',
   },
   {
     name: 'Пекин, Китай',
-    link: (src = './images/Beijing.JPG'),
+    link: './images/Beijing.JPG',
   },
   {
     name: 'Шанхай, Китай',
-    link: (src = './images/Shanghai.JPG'),
+    link: './images/Shanghai.JPG',
   },
   {
     name: 'Сучжоу, Китай',
-    link: (src = './images/Suzhou.JPG'),
+    link: './images/Suzhou.JPG',
   },
 ];
 
 //функция открытия попапа
 function openPopup (item) {
   item.classList.add('popup_opened');
+  document.addEventListener('keydown', closePopupEcs);
 }
 
 //функция закрытия попапа
 function closePopup (item) {
   item.classList.remove('popup_opened');
+  document.removeEventListener('keydown', closePopupEcs);
 }
 
 //открыть попап редактирования профиля
 editButton.addEventListener('click', function (evt) {
-  inputName.value = name.textContent;
-  inputDescription.value = description.textContent;
+  inputName.value = profileNameElement.textContent;
+  inputDescription.value = profileDescriptionElement.textContent;
   openPopup(popupEdit);
 });
 
 //открытие попапа добавления карточки
-addButton.addEventListener('click', () => openPopup(popupAdd));
+addButton.addEventListener('click', () => {
+  openPopup(popupAdd); 
+  toggleButtonState;
+});
+
+const picture = document.querySelector('.popup-image__picture');
+const caption = document.querySelector('.popup-image__caption');
 
 //функция открытия полного изображения
-function showFullImage(evt) {
-  const parent = evt.target.closest('.place');
-  const titleElement = parent.querySelector('.place__title');
-  const picture = document.querySelector('.popup-image__picture');
-  const caption = document.querySelector('.popup-image__caption');
-  picture.src = evt.target.src;
-  caption.textContent = titleElement.textContent;
+function showFullImage(name, link) {
+  picture.src = link;
+  picture.alt = name;
+  caption.textContent = name; 
   openPopup(popupFullImage);
 }
 
@@ -85,9 +90,9 @@ closeImage.addEventListener('click', () => closePopup(popupFullImage));
 closeAdd.addEventListener('click', () => closePopup(popupAdd));
 
 //закрытие попапов через esc
-document.addEventListener('keydown', closePopupEcs);
 function closePopupEcs (evt) {
-  if (evt.keyCode === 27) {
+  const escapeKey = 27;
+  if (evt.keyCode === escapeKey) {
     const currentPopup = document.querySelector('.popup_opened');
     closePopup(currentPopup);
   }
@@ -105,8 +110,8 @@ function closePopupOverlay (evt) {
 //сабмит редактирования профиля
 editForm.addEventListener('submit', function (evt) {
   evt.preventDefault();
-  name.textContent = inputName.value;
-  description.textContent = inputDescription.value;
+  profileNameElement.textContent = inputName.value;
+  profileDescriptionElement.textContent = inputDescription.value;
   closePopup(popupEdit);
 });
 
@@ -132,13 +137,15 @@ function toggleLike(evt) {
 function createPlace(element) {
   const placeElement = cardTemplate.cloneNode(true);
   placeElement.querySelector('.place__title').textContent = element.name;
+  placeElement.querySelector('.place__image').alt = element.name;
   placeElement.querySelector('.place__image').src = element.link;
   placeElement.querySelector('.place__like-button').addEventListener('click', toggleLike);
   placeElement.querySelector('.place__image').addEventListener('click', showFullImage);
   placeElement.querySelector('.place__delete-button').addEventListener('click', deletePlace);
-  
+  placeElement.querySelector('.place__image').addEventListener('click', () => showFullImage(element.name, element.link));
+
   return placeElement;
-}
+} 
 
 //метод форыч, вот чтоб все карточки вели себя правильно
 initialPlaces.forEach(function (element) {
