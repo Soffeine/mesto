@@ -17,21 +17,6 @@ function highlightFieldError(field) {
     errorSpan.textContent = field.validationMessage;
 }
 
-//функция показа ошибки
-//function showError(input) {
-  //  const validity = input.validity;
- // const isValid = input.checkValidity();
-  //if (validity.tooShort || validity.tooLong) {
-    //  input.classList.add('popup-form__information_error');
-    // highlightFieldError;
-  //} else if (validity.typeMismatch && input.type === 'url') {
-    //  highlightFieldError;
-      //input.classList.add('popup-form__information_error');
- // } else if (isValid) {
-   ///   input.classList.remove('popup-form__information_error');
-  //}
-//}
-
 // микро-функция показа ошибки
 function showError(input) {
   input.classList.add('popup-form__information_error');
