@@ -5,8 +5,7 @@ const validationConfig = {
     submitButton: '.popup__button',
     submitButtonInvalid: '.popup__save-button_invalid',
     submitButtonValid: '.popup__save-button_valid',
-    inputError: '.popup__error-message',
-    inputError: '.popup__error-message_active'
+    inputError: '.popup__error-message'
 }
 
 const addValidation = document.querySelector(validationConfig.popupAdd);
@@ -18,31 +17,28 @@ function highlightFieldError(field) {
     errorSpan.textContent = field.validationMessage;
 }
 
-
 //функция показа ошибки
 //function showError(input) {
   //  const validity = input.validity;
-    //const isValid = input.checkValidity();
-    //if (validity.tooShort || validity.tooLong) {
-      //  input.classList.add('popup-form__information_error');
-       // highlightFieldError;
-    //} else if (validity.typeMismatch && input.type === 'url') {
-      //  highlightFieldError;
-        //input.classList.add('popup-form__information_error');
-   // } else if (isValid) {
-     ///   input.classList.remove('popup-form__information_error');
-    //}
+ // const isValid = input.checkValidity();
+  //if (validity.tooShort || validity.tooLong) {
+    //  input.classList.add('popup-form__information_error');
+    // highlightFieldError;
+  //} else if (validity.typeMismatch && input.type === 'url') {
+    //  highlightFieldError;
+      //input.classList.add('popup-form__information_error');
+ // } else if (isValid) {
+   ///   input.classList.remove('popup-form__information_error');
+  //}
 //}
 
 // микро-функция показа ошибки
 function showError(input) {
-  highlightFieldError; 
   input.classList.add('popup-form__information_error');
 }
 
 //микро-функция скрытия ошибки
 function hideError(input) {
-  highlightFieldError; 
   input.classList.remove('popup-form__information_error');
 }
 
@@ -51,13 +47,11 @@ function enableValidation(input) {
   const validity = input.validity;
   const isValid = input.checkValidity();
   if (validity.tooShort || validity.tooLong) { 
-    showError;
-    highlightFieldError; 
+    showError(input);
 } else if (validity.typeMismatch && input.type === 'url') {
-    showError; 
-    highlightFieldError;
-} else if (isValid) { 
-    hideError; 
+    showError(input);
+} else if (isValid) {
+    hideError(input); 
 }
 }
 
@@ -77,15 +71,15 @@ function toggleButtonState(form) {
 // caбмит инпутов формы добавления карточки
 addValidation.addEventListener('input', function (evt) {
     const input = evt.target;
-    const form = evt.currentTarget;
     enableValidation(input);
     toggleButtonState(addForm);
+    highlightFieldError(input);
 });
 
 //сабмит инпутов формы редактирования профиля
 editValidation.addEventListener('input', function (evt) {
-    const input = evt.target;
-    const form = evt.currentTarget;
+    const input = evt.target.classList.contains(validationConfig.popupInput);
     enableValidation(input);
     toggleButtonState(editForm);
-})
+    highlightFieldError(input);
+});
