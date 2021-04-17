@@ -63,7 +63,7 @@ addValidation.addEventListener('input', function (evt) {
 
 //сабмит инпутов формы редактирования профиля
 editValidation.addEventListener('input', function (evt) {
-    const input = evt.target.classList.contains(validationConfig.popupInput);
+    const input = evt.target;
     enableValidation(input);
     toggleButtonState(editForm);
     highlightFieldError(input);
