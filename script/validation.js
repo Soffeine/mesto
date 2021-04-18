@@ -10,7 +10,7 @@ const validationConfig = {
 // Функция для копирования текста ошибки из свойства поля ввода в span под ним.
 function highlightFieldError(field) {
   const errorSpan = field.nextElementSibling;
-    errorSpan.textContent = field.validationMessage;
+  errorSpan.textContent = field.validationMessage;
 }
 
 // микро-функция показа ошибки
@@ -35,19 +35,6 @@ function validateInput (input) {
   }
 }
 
-//функция валидации формы
-function enableValidation(config) {
-  const getFormList = Array.from(document.querySelectorAll(validationConfig.popupForm));
-  getFormList.forEach((formElement) => {
-      formElement.addEventListener('submit', (evt) => {
-        evt.preventDefault();
-      });
-  validateInput (formElement, validationConfig.popupInput, config);
-  toggleButtonState (formElement, validationConfig.popupForm, config);
-  highlightFieldError (formElement, validationConfig.popupInput, config);
-});
-}
-
 //функция изменения кнопки
 function toggleButtonState(form) {
     const button = form.querySelector(validationConfig.submitButton);
@@ -60,13 +47,42 @@ function toggleButtonState(form) {
         button.classList.remove(validationConfig.submitButtonValid);
     }
 }
+//функция валидации формы
+//function enableValidation(config) {
+//    const getFormList = Array.from(document.querySelectorAll(config.popupForm));
+//    getFormList.forEach((formElement) => {
+//        formElement.addEventListener('submit', (evt) => {
+//          evt.preventDefault();
+//        });
+//    validateInput (config.popupInput); //
+//    toggleButtonState (config.popupForm);
+//    highlightFieldError (config.inputError);
+//  });
+//  }
 
-// caбмит инпутов формы добавления карточки
-editForm.addEventListener('input', function (evt) {
-    enableValidation(validationConfig);
-});
+function enableValidation(config) {
+  const forms = document.querySelectorAll(config.popupForm);
+  forms.forEach(form => setEventListeners(InputError, popupInput, popupForm, config));
+}
+// Тут ставишь слушатели на конкретную форму.
+// Обрати внимание - сколько аргументов передали в функцию (парой строк выше), **ровно столько же** должно быть объявлено при её инициализации.
+function setEventListeners(InputError, popupInput, popupForm, config) { 
+    addForm.addEventListener('input', (evt) => {
+    evt.preventDefault();
+    highlightFieldError(InputError, config);
+    validateInput(popupInput, config);
+    toggleButtonState(popupForm, config);
+  });
+ }
 
-//сабмит инпутов формы редактирования профиля
-addForm.addEventListener('input', function (evt) {
-    enableValidation(validationConfig);
-});
+enableValidation(validationConfig);
+
+
+
+
+
+
+
+
+
+
