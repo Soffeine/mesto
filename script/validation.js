@@ -59,9 +59,7 @@ function enableValidation(config) {
       setEventListeners(form, config);
   });
 }
-// Тут ставишь слушатели на конкретную форму.
-// Обрати внимание - сколько аргументов передали в функцию 
-//(парой строк выше), **ровно столько же** должно быть объявлено при её инициализации.
+
 function setEventListeners(form, config) {
     form.addEventListener('input', (evt) => {
     const input = evt.target;
