@@ -66,7 +66,7 @@ editButton.addEventListener('click', function (evt) {
 //открытие попапа добавления карточки
 addButton.addEventListener('click', () => {
   openPopup(popupAdd); 
-  toggleButtonState;
+  toggleButtonState(addForm);
 });
 
 const picture = document.querySelector('.popup-image__picture');
@@ -102,13 +102,16 @@ function closePopupEcs (evt) {
 }
 
 // закрытие попапов через overlay
-document.addEventListener('click', closePopupOverlay);
+popupEdit.addEventListener('click', closePopupOverlay); 
+popupAdd.addEventListener('click', closePopupOverlay); 
+popupFullImage.addEventListener('click', closePopupOverlay);
 function closePopupOverlay (evt) {
   if(evt.target.classList.contains('popup')) {
     const currentPopup = document.querySelector('.popup_opened');
     closePopup(currentPopup);
   }
 }
+
 
 //сабмит редактирования профиля
 editForm.addEventListener('submit', function (evt) {
