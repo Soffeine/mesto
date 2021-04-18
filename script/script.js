@@ -87,7 +87,10 @@ const closeImage = document.querySelector('.popup-image__close-button');
 
 closeEdit.addEventListener('click', () => closePopup(popupEdit));
 closeImage.addEventListener('click', () => closePopup(popupFullImage));
-closeAdd.addEventListener('click', () => closePopup(popupAdd));
+closeAdd.addEventListener('click', () => {
+  closePopup(popupAdd);
+  addForm.reset();
+});
 
 //закрытие попапов через esc
 function closePopupEcs (evt) {

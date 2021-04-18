@@ -2,9 +2,9 @@ const validationConfig = {
     popupAdd: '.popup-add',
     popupEdit: '.popup-edit',
     popupInput: '.popup-form__information',
+    popupInputError: 'popup-form__information_error',
     submitButton: '.popup__button',
-    submitButtonInvalid: '.popup__save-button_invalid',
-    submitButtonValid: '.popup__save-button_valid',
+    submitButtonValid: 'popup__button_valid',
     inputError: '.popup__error-message'
 }
 
@@ -19,12 +19,12 @@ function highlightFieldError(field) {
 
 // микро-функция показа ошибки
 function showError(input) {
-  input.classList.add('popup-form__information_error');
+  input.classList.add(validationConfig.popupInputError);
 }
 
 //микро-функция скрытия ошибки
 function hideError(input) {
-  input.classList.remove('popup-form__information_error');
+  input.classList.remove(validationConfig.popupInputError);
 }
 
 //функция валидации формы
@@ -32,11 +32,11 @@ function enableValidation(input) {
   const validity = input.validity;
   const isValid = input.checkValidity();
   if (validity.tooShort || validity.tooLong) { 
-    showError(input);
+    showError(input, validationConfig.popupInput);
 } else if (validity.typeMismatch && input.type === 'url') {
-    showError(input);
+    showError(input, validationConfig.popupInput);
 } else if (isValid) {
-    hideError(input); 
+    hideError(input, validationConfig.popupInput); 
 }
 }
 
@@ -46,10 +46,10 @@ function toggleButtonState(form) {
     const isValid = form.checkValidity();
     if (isValid) {
         button.removeAttribute('disabled');
-        button.classList.add('popup__button_valid');
+        button.classList.add(validationConfig.submitButtonValid);
     } else {
         button.setAttribute('disabled', true);
-        button.classList.remove('popup__button_valid');
+        button.classList.remove(validationConfig.submitButtonValid);
     }
 }
 
