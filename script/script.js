@@ -65,8 +65,8 @@ editButton.addEventListener('click', function (evt) {
 
 //открытие попапа добавления карточки
 addButton.addEventListener('click', () => {
-  openPopup(popupAdd); 
-  toggleButtonState(addForm);
+  openPopup(popupAdd);
+  toggleButtonState(addForm, validationConfig);
 });
 
 const picture = document.querySelector('.popup-image__picture');

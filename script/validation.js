@@ -36,7 +36,7 @@ function validateInput (input, config) {
 
 //функция изменения кнопки
 function toggleButtonState(form, config) {
-    const button = form.querySelector('config.submitButton');
+    const button = form.querySelector(config.submitButton);
     const isValid = form.checkValidity();
     if (isValid) {
         button.removeAttribute('disabled');
@@ -49,7 +49,6 @@ function toggleButtonState(form, config) {
 //функция валидации формы
 function enableValidation(config) {
     const forms = Array.from(document.querySelectorAll(config.popupForm));
-    const formElements = Array.from(document.querySelectorAll(config.popupInput));
     forms.forEach((form) => {
         form.addEventListener('submit', (evt) => {
           evt.preventDefault();
