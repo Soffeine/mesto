@@ -36,14 +36,14 @@ function validateInput (input, config) {
 
 //функция изменения кнопки
 function toggleButtonState(form, config) {
-    const button = form.querySelector(validationConfig.submitButton);
+    const button = form.querySelector('config.submitButton');
     const isValid = form.checkValidity();
     if (isValid) {
         button.removeAttribute('disabled');
-        button.classList.add(validationConfig.submitButtonValid);
+        button.classList.add(config.submitButtonValid);
     } else {
         button.setAttribute('disabled', true);
-        button.classList.remove(validationConfig.submitButtonValid);
+        button.classList.remove(config.submitButtonValid);
     }
 }
 //функция валидации формы
