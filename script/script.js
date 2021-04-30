@@ -29,11 +29,25 @@ editButton.addEventListener('click', function (evt) {
   openPopup(popupEdit);
 });
 
+// мой единственный не поломавший код (и самооценку) способ сделать так, чтоб кнопка вела себя прилично.
+function buttonStateChanges(form, config) {
+  const button = form.querySelector(config.submitButton);
+        const isValid = form.checkValidity();
+        if (isValid) {
+            button.removeAttribute('disabled');
+            button.classList.add(config.submitButtonValid);
+        } else {
+            button.setAttribute('disabled', true);
+            button.classList.remove(config.submitButtonValid);
+        }
+}
+
 
 const addForm = document.forms.addForm;
 //открытие попапа добавления карточки
 addButton.addEventListener('click', () => {
   openPopup(popupAdd);
+  buttonStateChanges(addForm, validationConfig);
 });
 
 
@@ -56,6 +70,7 @@ closeAdd.addEventListener('click', () => {
   closePopup(popupAdd);
   addForm.reset();
 });
+
 
 //закрытие попапов через esc
 function closePopupEcs(evt) {
@@ -120,14 +135,19 @@ const places = document.querySelector('.places'); //контейнер для п
 const picture = document.querySelector('.popup-image__picture'); //картинка попапа в разметке
 const caption = document.querySelector('.popup-image__caption'); //подпись в попапе в разметке
 
-initialPlaces.forEach(item => {
+function createCard(item) {
   const place = new Card(item, '#place-card');
-  const placeElement = place.generateCard();
+  return place.generateCard();
+}
+
+initialPlaces.forEach(item => {
+  const placeElement = createCard(item);
   places.append(placeElement);
 });
 
 const inputPlaceName = addForm.elements.inputPlaceName;
 const inputPlaceImage = addForm.elements.inputPlaceImage;
+
 //сабмит добавления нового места
 addForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
@@ -138,9 +158,8 @@ addForm.addEventListener('submit', (evt) => {
     link: imageLink
   };
 
-  const newPlace = new Card(cardData, '#place-card');
-  const placeElement = newPlace.generateCard();
-  places.prepend(placeElement);
+  const newPlace = createCard(cardData);
+  places.prepend(newPlace);
   closePopup(popupAdd);
   addForm.reset();
 });
@@ -153,10 +172,8 @@ const validationConfig = {
   submitButtonValid: 'popup__button_valid'
 }
 
-const addFormValidation = new FormValidator(validationConfig);
-addFormValidation.enableValidation();
+new FormValidator(editForm, validationConfig).enableValidation();
 
-const editFormValidation = new FormValidator(validationConfig);
-editFormValidation.enableValidation();
 
+new FormValidator(addForm, validationConfig).enableValidation();
 

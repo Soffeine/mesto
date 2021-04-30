@@ -17,15 +17,6 @@ export class Card {
         return placeElement;
     }
 
-    _generateCard() {
-        this._element = this._getTemplate();
-        this._element.querySelector('.photo-card__image').src = this._link;
-        this._element.querySelector('.photo-card__image').alt = this._name;
-        this._element.querySelector('.photo-card__title').textContent = this._name;
-        this._setEventListeners();
-        return this._element;
-    }
-
     _setEventListeners() {
         this._element.querySelector('.place__delete-button').addEventListener('click', () => {
             this._deleteCard();
@@ -50,6 +41,7 @@ export class Card {
     generateCard() {
         this._element = this._getTemplate();
         this._element.querySelector('.place__image').src = this._link;
+        this._element.querySelector('.place__image').alt = this._link;
         this._element.querySelector('.place__title').textContent = this._name;
         this._setEventListeners();
         return this._element;
