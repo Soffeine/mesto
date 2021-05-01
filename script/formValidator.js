@@ -35,7 +35,7 @@ export class FormValidator {
     }
 
     //изменения кнопки
-    _toggleButtonState(form) {
+    toggleButtonState() {
         const button = this._form.querySelector(this._config.submitButton);
         const isValid = this._form.checkValidity();
         if (isValid) {
@@ -52,7 +52,7 @@ export class FormValidator {
             const input = evt.target;
             this._validateInput(input, this._config);
             this._highlightFieldError(input, this._config);
-            this._toggleButtonState(this._form, this._config);
+            this.toggleButtonState(this._form, this._config);
         });
     }
 

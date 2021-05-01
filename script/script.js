@@ -6,6 +6,14 @@ const addButton = document.querySelector('.profile__add-button')
 const profileNameElement = document.querySelector('.profile__name');
 const profileDescriptionElement = document.querySelector('.profile__description');
 
+const validationConfig = {
+  popupForm: '.popup-form',
+  popupInput: '.popup-form__information',
+  popupInputError: 'popup-form__information_error',
+  submitButton: '.popup__button',
+  submitButtonValid: 'popup__button_valid'
+}
+
 //функция открытия попапа
 function openPopup(item) {
   item.classList.add('popup_opened');
@@ -29,25 +37,12 @@ editButton.addEventListener('click', function (evt) {
   openPopup(popupEdit);
 });
 
-// мой единственный не поломавший код (и самооценку) способ сделать так, чтоб кнопка вела себя прилично.
-function buttonStateChanges(form, config) {
-  const button = form.querySelector(config.submitButton);
-        const isValid = form.checkValidity();
-        if (isValid) {
-            button.removeAttribute('disabled');
-            button.classList.add(config.submitButtonValid);
-        } else {
-            button.setAttribute('disabled', true);
-            button.classList.remove(config.submitButtonValid);
-        }
-}
-
-
 const addForm = document.forms.addForm;
+const addFormValidation =  new FormValidator(addForm, validationConfig).enableValidation();
 //открытие попапа добавления карточки
 addButton.addEventListener('click', () => {
   openPopup(popupAdd);
-  buttonStateChanges(addForm, validationConfig);
+  addFormValidation.toggleButtonState();
 });
 
 
@@ -164,16 +159,5 @@ addForm.addEventListener('submit', (evt) => {
   addForm.reset();
 });
 
-const validationConfig = {
-  popupForm: '.popup-form',
-  popupInput: '.popup-form__information',
-  popupInputError: 'popup-form__information_error',
-  submitButton: '.popup__button',
-  submitButtonValid: 'popup__button_valid'
-}
-
-new FormValidator(editForm, validationConfig).enableValidation();
-
-
-new FormValidator(addForm, validationConfig).enableValidation();
+const editFormValidation =  new FormValidator(editForm, validationConfig).enableValidation();
 
