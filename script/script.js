@@ -38,7 +38,7 @@ editButton.addEventListener('click', function (evt) {
 });
 
 const addForm = document.forms.addForm;
-const addFormValidation =  new FormValidator(addForm, validationConfig).enableValidation();
+const addFormValidation =  new FormValidator(addForm, validationConfig)
 //открытие попапа добавления карточки
 addButton.addEventListener('click', () => {
   openPopup(popupAdd);
@@ -160,4 +160,4 @@ addForm.addEventListener('submit', (evt) => {
 });
 
 const editFormValidation =  new FormValidator(editForm, validationConfig).enableValidation();
-
+addFormValidation.enableValidation();
