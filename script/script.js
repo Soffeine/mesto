@@ -10,6 +10,7 @@ import { UserInfo } from './UserInfo.js';
 const editButton = document.querySelector('.profile__edit-button');
 const addButton = document.querySelector('.profile__add-button');
 
+
 //массив с дефолтными карточками
 const initialPlaces = [
   {
@@ -97,7 +98,7 @@ DefaultPlaces.createItems();
 
 
 //сабмит добавления нового места
-const popupAddForm = new PopupWithForm({
+const addPopupHandler = new PopupWithForm({
   popupSelector: '.popup-add',
   submitHandler: (futureValues) => {
     const newPlace = new Section({
@@ -118,21 +119,21 @@ addButton.addEventListener('click', () => {
 
 
 const userInfoEdit = new UserInfo({
-  [userData.name]: profileNameElement,
-  [userData.description]: profileDescriptionElement
+  nameSelector: '.profile__name',
+  descriptionSelector: '.profile__description'
 });
 
 const editPopupHandler = new PopupWithForm({
   popupSelector: '.popup-edit',
-  submitHandler: (userData) => {
-    userInfoEdit.setUserInfo(userData.name, userData.description);;
+  submitHandler: () => {
+    userInfoEdit.setUserInfo(inputName, inputDescription);;
     editPopupHandler.close();
   }
 });
 
 editButton.addEventListener('click', () => {
   editPopupHandler.open();
-  userInfoEdit.setUserInfo(userData.name, userData.description);
+  userInfoEdit.getUserInfo(inputName, inputDescription);
   editPopupHandler.setEventListeners();
 })
 
