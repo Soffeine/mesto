@@ -113,8 +113,8 @@ const addPopupHandler = new PopupWithForm({
 
 //слушатель на клик формы добавления карточки
 addButton.addEventListener('click', () => {
-  popupAddForm.open();
-  popupAddForm.setEventListeners();
+  addPopupHandler.open();
+  addPopupHandler.setEventListeners();
 });
 
 
