@@ -1,0 +1,19 @@
+{
+  "name": "mesto",
+  "version": "0.0.1",
+  "description": "project",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Soffeine/mesto.git"
+  },
+  "author": "Sofya Tyukova",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Soffeine/mesto/issues"
+  },
+  "homepage": "https://github.com/Soffeine/mesto#readme"
+}

@@ -1,10 +1,10 @@
-import {showFullImage} from './script.js'
 
 export class Card {
-    constructor(data, cardSelector) {
-        this._link = data.link;
-        this._name = data.name
+    constructor(placeData, cardSelector, handleCardClick) {
+        this._link = placeData.link;
+        this._name = placeData.name;
         this._cardSelector = cardSelector;
+        this._handleCardClick = handleCardClick;
     }
 
     _getTemplate() {
@@ -25,8 +25,8 @@ export class Card {
             this._toggleLike();
         });
         this._element.querySelector('.place__image').addEventListener('click', () => {
-            showFullImage(this._name, this._link);
-        })
+            this._handleCardClick(this._name, this._link);
+        });
     }
 
     _toggleLike() {
@@ -41,7 +41,7 @@ export class Card {
     generateCard() {
         this._element = this._getTemplate();
         this._element.querySelector('.place__image').src = this._link;
-        this._element.querySelector('.place__image').alt = this._link;
+        this._element.querySelector('.place__image').alt = this._name;
         this._element.querySelector('.place__title').textContent = this._name;
         this._setEventListeners();
         return this._element;
