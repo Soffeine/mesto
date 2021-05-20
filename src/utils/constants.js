@@ -7,27 +7,27 @@ export const addButton = document.querySelector('.profile__add-button');
 export const initialPlaces = [
   {
     name: 'Афины, Греция',
-    link: 'https://raw.githubusercontent.com/Soffeine/mesto/main/images/Athens.JPG'
+    link: 'https://pitersc.ru/assets/images/df1fe42d8e8dc407c2d3bae622f20a09.jpg'
   },
   {
     name: 'Стамбул, Турция',
-    link: 'https://raw.githubusercontent.com/Soffeine/mesto/main/images/Istanbul.JPG'
+    link: 'https://live.staticflickr.com/5699/23863030595_2d1870dfdf_b.jpg'
   },
   {
     name: 'Териберка, Россия',
-    link: 'https://raw.githubusercontent.com/Soffeine/mesto/main/images/teriberka.JPG'
+    link: 'https://photocentra.ru/images/main90/905871_main.jpg'
   },
   {
     name: 'Пекин, Китай',
-    link: 'https://raw.githubusercontent.com/Soffeine/mesto/main/images/Beijing.JPG'
+    link: 'https://cdn.sozvezdie-tour.ru/images/uploadedfiles/56190280-84c8-4e93-bc66-21991dd8dc83.jpg'
   },
   {
     name: 'Шанхай, Китай',
-    link: 'https://raw.githubusercontent.com/Soffeine/mesto/main/images/Shanghai.JPG'
+    link: 'https://kitaimir.ru/wp-content/uploads/2019/12/shanhay-kitay-shanghai-china-c0k2.jpg'
   },
   {
     name: 'Сучжоу, Китай',
-    link: 'https://raw.githubusercontent.com/Soffeine/mesto/main/images/Suzhou.JPG'
+    link: 'https://amenohitravels.com/wp-content/uploads/2018/12/suzhou01.jpg'
   },
 ];
 
