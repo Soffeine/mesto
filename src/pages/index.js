@@ -1,9 +1,9 @@
-import { Card } from '../script/cards.js';
-import { FormValidator } from '../script/formValidator.js';
-import { PopupWithImage } from '../script/PopupWhithImage.js';
-import { PopupWithForm } from '../script/PopupWithForm.js';
-import { Section } from '../script/Section.js';
-import { UserInfo } from '../script/UserInfo.js';
+import { Card } from '../components/Card.js';
+import { FormValidator } from '../components/FormValidator.js';
+import { PopupWithImage } from '../components/PopupWithImage.js';
+import { PopupWithForm } from '../components/PopupWithForm.js';
+import { Section } from '../components/Section.js';
+import { UserInfo } from '../components/UserInfo.js';
 import {
   editButton,
   addButton,
@@ -23,9 +23,10 @@ addFormValidation.enableValidation();
 const editFormValidation = new FormValidator(editForm, validationConfig);
 editFormValidation.enableValidation();
 
+const handleFullImagePopup = new PopupWithImage('.popup-image');
+
 //функция для открытия полного изображения для класса CARD
 function openFullImage(name, link) {
-  const handleFullImagePopup = new PopupWithImage('.popup-image');
   handleFullImagePopup.open(name, link);
   handleFullImagePopup.setEventListeners();
 }
@@ -48,7 +49,7 @@ const DefaultPlaces = new Section({
 
 
 //сабмит добавления нового места
-const addPopupHandler = new PopupWithForm({
+const addPopup = new PopupWithForm({
   popupSelector: '.popup-add',
   submitHandler: (futureValues) => {
     DefaultPlaces.addItem(createCard({ name: futureValues.inputPlaceName, link: futureValues.inputPlaceImage }));
@@ -59,9 +60,10 @@ DefaultPlaces.createItems();
 
 //слушатель на клик формы добавления карточки
 addButton.addEventListener('click', () => {
-  addPopupHandler.open();
-  addPopupHandler.setEventListeners();
+  addPopup.open();
+  addFormValidation.enableValidation();
 });
+addPopup.setEventListeners();
 
 
 const userInfoEdit = new UserInfo({
@@ -69,17 +71,18 @@ const userInfoEdit = new UserInfo({
   descriptionSelector: '.profile__description'
 });
 
-const editPopupHandler = new PopupWithForm({
+const editPopup = new PopupWithForm({
   popupSelector: '.popup-edit',
-  submitHandler: () => {
+  submitHandler: (futureValues) => {
     userInfoEdit.setUserInfo(inputName, inputDescription);;
-    editPopupHandler.close();
+    editPopup.close();
   }
 });
 
 editButton.addEventListener('click', () => {
-  editPopupHandler.open();
-  userInfoEdit.getUserInfo(inputName, inputDescription);
-  editPopupHandler.setEventListeners();
-})
+  editPopup.open();
+  inputName.value = userInfoEdit.getUserInfo().name;
+  inputDescription.value = userInfoEdit.getUserInfo().description;
+});
+editPopup.setEventListeners();
 

@@ -10,20 +10,20 @@
 <body class="root">
   <div class="page">
     <header class="header">
-      <img src="./images/header-logo.svg" class="header__logo" alt="Логотип Место">
+      <img src="<%=require('./images/header-logo.svg')%>" class="header__logo" alt="Логотип Место">
     </header>
 
     <main>
 
       <section class="profile">
-        <img src="./images/profile__image.JPG" class="profile__image" alt="Фото профиля">
+        <img src="<%=require('./images/profile__image.JPG')%>" class="profile__image" alt="Фото профиля">
         <div class="profile__info">
           <h1 class="profile__name" id="name">Жак-Ив Кусто</h1>
           <button type="button" class="profile__edit-button"></button>
           <p class="profile__description" id="description">Исследователь океана</p>
         </div>
         <button type="button" class="profile__add-button">
-          <img src="./images/add__button.svg" alt="Добавить фото">
+          <img src="<%=require('./images/add__button.svg')%>" alt="Добавить фото">
         </button>
       </section>
 

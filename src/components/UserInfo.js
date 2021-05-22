@@ -5,11 +5,11 @@ export class UserInfo {
   }
 
   //получает данные из профиля
-  getUserInfo(nameInput, descriptionInput) {
-
-    nameInput.value = this._name.textContent;
-    descriptionInput.value = this._description.textContent;
-
+  getUserInfo() {
+    this._futureValues = {};
+    this._futureValues.name = this._name.textContent;
+    this._futureValues.description = this._description.textContent;
+    return this._futureValues;
   }
 
   //вставляет  данные из полей ввода в поля профиля

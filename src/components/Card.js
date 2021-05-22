@@ -1,4 +1,3 @@
-
 export class Card {
     constructor(placeData, cardSelector, handleCardClick) {
         this._link = placeData.link;
