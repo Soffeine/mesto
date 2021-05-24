@@ -1,6 +1,7 @@
 .popup__button_valid {
   background: #000;
   color: #fff;
+  cursor: pointer;
 }
     
 .popup__button_valid:hover {

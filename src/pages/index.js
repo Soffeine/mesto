@@ -28,8 +28,8 @@ const handleFullImagePopup = new PopupWithImage('.popup-image');
 //функция для открытия полного изображения для класса CARD
 function openFullImage(name, link) {
   handleFullImagePopup.open(name, link);
-  handleFullImagePopup.setEventListeners();
 }
+handleFullImagePopup.setEventListeners();
 
 //рендеринг карточки на страницу
 function createCard(item) {
@@ -39,10 +39,10 @@ function createCard(item) {
 }
 
 //создание карточек из массива
-const DefaultPlaces = new Section({
+const defaultPlaces = new Section({
   data: initialPlaces,
   renderer: (data) => {
-    DefaultPlaces.addItem(createCard(data));
+    defaultPlaces.addItem(createCard(data));
   }
 }, '.places');
 
@@ -52,16 +52,16 @@ const DefaultPlaces = new Section({
 const addPopup = new PopupWithForm({
   popupSelector: '.popup-add',
   submitHandler: (futureValues) => {
-    DefaultPlaces.addItem(createCard({ name: futureValues.inputPlaceName, link: futureValues.inputPlaceImage }));
+    defaultPlaces.addItem(createCard({ name: futureValues.inputPlaceName, link: futureValues.inputPlaceImage }));
   }
 });
-DefaultPlaces.createItems();
+defaultPlaces.createItems();
 
 
 //слушатель на клик формы добавления карточки
 addButton.addEventListener('click', () => {
   addPopup.open();
-  addFormValidation.enableValidation();
+  addFormValidation.toggleButtonState();
 });
 addPopup.setEventListeners();
 
@@ -74,15 +74,16 @@ const userInfoEdit = new UserInfo({
 const editPopup = new PopupWithForm({
   popupSelector: '.popup-edit',
   submitHandler: (futureValues) => {
-    userInfoEdit.setUserInfo(inputName, inputDescription);;
+    userInfoEdit.setUserInfo({name: futureValues.inputName, description:futureValues.inputDescription});
     editPopup.close();
   }
 });
 
 editButton.addEventListener('click', () => {
   editPopup.open();
-  inputName.value = userInfoEdit.getUserInfo().name;
-  inputDescription.value = userInfoEdit.getUserInfo().description;
+  const currentUserInfo = userInfoEdit.getUserInfo();
+  inputName.value = currentUserInfo.name;
+  inputDescription.value = currentUserInfo.description;
 });
 editPopup.setEventListeners();
 
