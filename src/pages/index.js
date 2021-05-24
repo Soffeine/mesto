@@ -84,6 +84,7 @@ editButton.addEventListener('click', () => {
   const currentUserInfo = userInfoEdit.getUserInfo();
   inputName.value = currentUserInfo.name;
   inputDescription.value = currentUserInfo.description;
+  editFormValidation.toggleButtonState();
 });
 editPopup.setEventListeners();
 
