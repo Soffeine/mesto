@@ -1,9 +1,11 @@
+
 import { Card } from '../components/Card.js';
 import { FormValidator } from '../components/FormValidator.js';
 import { PopupWithImage } from '../components/PopupWithImage.js';
 import { PopupWithForm } from '../components/PopupWithForm.js';
 import { Section } from '../components/Section.js';
 import { UserInfo } from '../components/UserInfo.js';
+//import { PopupWithConfirm } from '../components/PopupWithConfirm.js';
 import {
   editButton,
   addButton,
@@ -15,13 +17,18 @@ import {
   validationConfig
 } from '../utils/constants.js';
 import './index.css';
+
+
 //валидация формы добавления карточки
 const addFormValidation = new FormValidator(addForm, validationConfig);
+
 //вызов валидации формы добавления карточки
 addFormValidation.enableValidation();
+
 //валидация формы редактирования профиля
 const editFormValidation = new FormValidator(editForm, validationConfig);
 editFormValidation.enableValidation();
+
 
 const handleFullImagePopup = new PopupWithImage('.popup-image');
 
@@ -57,6 +64,15 @@ const addPopup = new PopupWithForm({
 });
 defaultPlaces.createItems();
 
+//попап изменения фото профиля
+
+//const editProfilePhoto = new PopupWithForm({
+  //popupSelector: '.popup-avatar',
+  //submitHandler: (futureValues) => {
+    //
+  //}
+//})
+
 
 //слушатель на клик формы добавления карточки
 addButton.addEventListener('click', () => {
@@ -87,4 +103,3 @@ editButton.addEventListener('click', () => {
   editFormValidation.toggleButtonState();
 });
 editPopup.setEventListeners();
-

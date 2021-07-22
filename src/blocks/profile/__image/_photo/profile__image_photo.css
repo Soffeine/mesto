@@ -1,0 +1,22 @@
+.profile__image_photo {
+    width: 120px;
+    min-height: 120px;
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+    border: 1px solid rebeccapurple;
+  }
+  
+  @media screen and (max-width:900px) {
+    .profile__image_photo {
+      width: 12vw;
+    }
+  }
+  
+  @media screen and (max-width:640px) {
+    .profile__image_photo {
+      width: 50vw;
+      margin-bottom: 22px;
+      margin-right: 0;
+    }
+  }

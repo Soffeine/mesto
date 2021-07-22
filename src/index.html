@@ -16,7 +16,11 @@
     <main>
 
       <section class="profile">
-        <img src="<%=require('./images/profile__image.jpg')%>" class="profile__image" alt="Фото профиля">
+        <div class="profile__image">
+        <img src="<%=require('./images/profile__image.jpg')%>" class="profile__image_photo" alt="Фото профиля">
+        <button type="button" class="profile__image_edit-photo-sign">
+        </button>
+        </div>
         <div class="profile__info">
           <h1 class="profile__name" id="name">Жак-Ив Кусто</h1>
           <button type="button" class="profile__edit-button"></button>
@@ -34,7 +38,10 @@
             <button type="button" class="place__delete-button"></button>
             <div class="place__caption">
               <h2 class="place__title"></h2>
+              <div class="place__like-status-container">
               <button type="button" class="place__like-button"></button>
+              <div class="place__like-counter">0</div>
+              </div>
             </div>
           </div>
         </template>
@@ -89,6 +96,28 @@
     </div>
 
   </div>
+
+  <div class="popup popup-confirm">
+    <div class="popup__container">
+      <button type="button" class="popup__close-button popup-confirm__close-button"></button>
+        <h2 class="popup-form__heading">Вы уверены?</h2>
+        <button type="submit" class="popup__button popup__button_invalid" name="confirmSubmit" disabled>Да</button>
+    </div>
+  </div>
 </body>
+
+
+<div class="popup popup-avatar">
+  <div class="popup__container">
+    <button type="button" class="popup__close-button popup-avatar__close-button"></button>
+    <form class="popup-form" name="changeAvatarForm" id="popup-avatar-form" novalidate>
+      <h2 class="popup-form__heading">Обновить аватар</h2>
+      <input type="text" id="input-avatar" class="popup-form__information popup-form__information_input_avatar_link"
+        placeholder="Ссылка на фото" name="inputAvatarLink" type="url" required>
+      <span class="popup__error-message"></span>
+      <button type="submit" class="popup__button popup__button_invalid" name="addSubmit" disabled>Создать</button>
+    </form>
+  </div>
+</div>
 
 </html>
