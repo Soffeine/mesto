@@ -1,10 +1,10 @@
 
 export class Card {
-    constructor(placeData, myId, cardSelector, handleCardClick, handleDeleteIocnClick) {
+    constructor(placeData, ownerId, myId, cardSelector, handleCardClick, handleDeleteIocnClick) {
         this._link = placeData.link;
         this._name = placeData.name;
         this._owner = placeData.owner;
-        this._myId = placeData.myId;
+        this._myId = myId;
         this._id = placeData._id;
         this._cardSelector = cardSelector;
         this._handleCardClick = handleCardClick;
@@ -24,19 +24,19 @@ export class Card {
 
     _setEventListeners() {
         this._element.querySelector('.place__delete-button')
-        .addEventListener('click', this._handleDeleteIconClick);
+            .addEventListener('click', this._handleDeleteIconClick);
         this._element.querySelector('.place__like-button')
-        .addEventListener('click', () => {
-            this._toggleLike();
-        });
+            .addEventListener('click', () => {
+                this._toggleLike();
+            });
         this._element.querySelector('.place__image')
-        .addEventListener('click', () => {
-            this._handleCardClick(this._name, this._link);
-        });
+            .addEventListener('click', () => {
+                this._handleCardClick(this._name, this._link);
+            });
     }
 
     _toggleLike() {
-        this._element.querySelector('.place__like-button').classList.toggle('place__like-button_active');        
+        this._element.querySelector('.place__like-button').classList.toggle('place__like-button_active');
     }
 
     deleteCard() {
@@ -50,7 +50,7 @@ export class Card {
         this._element.querySelector('.place__image').alt = this._name;
         this._element.querySelector('.place__title').textContent = this._name;
 
-        if(this._owner === this.myId) {
+        if (this._ownerId === this.myId) {
             this._element.querySelector('.place__delete-button').removeAttribute('hidden')
         }
         this._setEventListeners();

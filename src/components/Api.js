@@ -57,13 +57,13 @@ export class Api {
         }
 
     // Добавление новой карточки
-    addNewCard(data) {
+    addNewCard(item) {
         return fetch(`${this._url}/cards`, {
             method: 'POST',
             headers: this._headers,
             body: JSON.stringify({
-                name: data.name,
-                link: data.link
+                name: item.name,
+                link: item.link
             })
         })
         .then(res => {
