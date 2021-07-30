@@ -13,14 +13,9 @@
 
 @media screen and (max-width: 440px) {
   .profile__name {
-    max-width: 59vw;
+    max-width: 55vw;
     font-size: 27px;
     text-align: center;
-  }
-}
-
-@media screen and (max-width: 440px) {
-  .profile__name {
     margin: 0 15px 0 45px;
   }
 }

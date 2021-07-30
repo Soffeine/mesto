@@ -38,8 +38,8 @@ export const editForm = document.forms.editForm;  //ФОРМА редактир�
 
 
 // поля для редактирования информации профиля
-export const inputName = editForm.elements.inputName;
-export const inputDescription = editForm.elements.inputDescription;
+export const inputName = editForm.elements.name;
+export const inputDescription = editForm.elements.about;
 
 
 //объект валидации

@@ -22,7 +22,7 @@ export class PopupWithForm extends Popup {
             evt.preventDefault();
             this._submitHandler(this._getInputValues());
             this.close();
-        });
+        }); 
     }
 
     close() {

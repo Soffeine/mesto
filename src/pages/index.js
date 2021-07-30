@@ -5,7 +5,8 @@ import { PopupWithImage } from '../components/PopupWithImage.js';
 import { PopupWithForm } from '../components/PopupWithForm.js';
 import { Section } from '../components/Section.js';
 import { UserInfo } from '../components/UserInfo.js';
-//import { PopupWithConfirm } from '../components/PopupWithConfirm.js';
+import { PopupWithConfirm } from '../components/PopupWithConfirm.js';
+import { Api } from '../components/Api.js';
 import {
   editButton,
   addButton,
@@ -38,9 +39,32 @@ function openFullImage(name, link) {
 }
 handleFullImagePopup.setEventListeners();
 
+let user = null;
+let userId = null;
+
 //рендеринг карточки на страницу
 function createCard(item) {
-  const place = new Card({ name: item.name, link: item.link }, '#place-card', openFullImage);
+  const place = new Card({
+    name: item.name,
+    link: item.link,
+    owner: item.owner,
+    _id: item._id
+  }, //placeData
+    userId, //myId
+    '#place-card', //cardSelector
+    openFullImage, //handleCardClick
+    () => { //handleDeleteCardIcon
+      confirmPopup.open();
+      confirmPopup.setSubmitAction(() => {
+        api.deleteCard(place.getId())
+          .then(() => { userId = userData._id })
+          .then(() => place.deleteCard())
+          .then(() => { confirmPopup.close() })
+          .catch(err => console.log(`не удалилось из-за ${err}`))
+      })
+
+    }
+  );
   const placeElement = place.generateCard();
   return placeElement;
 }
@@ -53,25 +77,25 @@ const defaultPlaces = new Section({
   }
 }, '.places');
 
-
-
-//сабмит добавления нового места
+//сабмит добавления новой карточки
 const addPopup = new PopupWithForm({
   popupSelector: '.popup-add',
-  submitHandler: (futureValues) => {
-    defaultPlaces.addItem(createCard({ name: futureValues.inputPlaceName, link: futureValues.inputPlaceImage }));
+  submitHandler: (data) => {
+    api.addNewCard(data)
+      .then(data => {
+        defaultPlaces.addItem(createCard({ name: data.name, link: data.link }));
+      })
+      .catch(err => console.log(`ошибочка ${err}`))
   }
 });
-defaultPlaces.createItems();
 
 //попап изменения фото профиля
+// const editAvatarPopup = new PopupWithForm({
+//   popupSelector: '.popup-avatar',
+//   submitHandler: (data) => {
 
-//const editProfilePhoto = new PopupWithForm({
-  //popupSelector: '.popup-avatar',
-  //submitHandler: (futureValues) => {
-    //
-  //}
-//})
+//   }
+// })
 
 
 //слушатель на клик формы добавления карточки
@@ -82,24 +106,73 @@ addButton.addEventListener('click', () => {
 addPopup.setEventListeners();
 
 
-const userInfoEdit = new UserInfo({
-  nameSelector: '.profile__name',
-  descriptionSelector: '.profile__description'
-});
+
+const confirmPopup = new PopupWithConfirm({
+  popupSelector: '.popup-confirm'
+})
+confirmPopup.setEventListeners()
 
 const editPopup = new PopupWithForm({
   popupSelector: '.popup-edit',
-  submitHandler: (futureValues) => {
-    userInfoEdit.setUserInfo({name: futureValues.inputName, description:futureValues.inputDescription});
+  submitHandler: (data) => {
+    api.editProfileInfo(data)
+      .then((data) => {
+        userInfo.setUserInfo({ name: data.name, about: data.about });
+      })
+      .catch(err => { console.log(`ничего не изменилось ${err}`) })
+
     editPopup.close();
   }
 });
 
 editButton.addEventListener('click', () => {
   editPopup.open();
-  const currentUserInfo = userInfoEdit.getUserInfo();
+  const currentUserInfo = userInfo.getUserInfo();
   inputName.value = currentUserInfo.name;
-  inputDescription.value = currentUserInfo.description;
+  inputDescription.value = currentUserInfo.about;
   editFormValidation.toggleButtonState();
 });
 editPopup.setEventListeners();
+
+// работа с api
+
+const api = new Api({
+  url: 'https://mesto.nomoreparties.co/v1/cohort-26',
+  headers: {
+    authorization: "7f564866-b8ba-4557-8c91-b7d4f8327f3b",
+    "Content-Type": "application/json"
+  }
+});
+
+//получение карточек с сервера
+api.getPlaceInfo()
+  .then(res => {
+    const Places = new Section({
+      data: res,
+      renderer: (data) => {
+        Places.addItem(createCard(data));
+      }
+    }, '.places');
+    Places.createItems(res);
+  })
+  .catch(err => console.log(`Упс, ошибочка ${err}`));
+
+
+const userInfo = new UserInfo({
+  nameSelector: '.profile__name',
+  descriptionSelector: '.profile__description'
+});
+
+
+// получение данных профиля с сервера
+api.getUserInfo()
+  .then(userData => {
+    user = userData.data;
+    userInfo.setUserInfo({
+      name: userData.name,
+      about: userData.about,
+      userAvatar: userData.avatar,
+      userID: userData._id,
+    })
+  })
+  .catch(err => console.log(`ИИИИИРРРОР: ${err}`))
