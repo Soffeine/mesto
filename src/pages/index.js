@@ -80,23 +80,20 @@ Promise.all([api.getUserInfo(), api.getPlaceInfo()])
   })
   .catch(err => console.log(`Упс, ошибочка ${err}`));
 
-let status = LoadStatus.INITIAL;
+const isLoadingEvent = (type) => {
+  window.dispatchEvent(new CustomEvent(type));
+};
 //экземпляр класса PopupWithForm для открытия попапа редактирования профиля
 const editPopup = new PopupWithForm({
   popupSelector: '.popup-edit',
   submitHandler: (data) => {
+    isLoadingEvent(LoadStatus.FETCHING)
     api.editProfileInfo(data)
-      .then(() => status = LoadStatus.FETCHING)
       .then((data) => {
         userInfo.setUserInfo({ name: data.name, about: data.about, _id: data._id });
-        status = LoadStatus.SUCCESSFUL
+        isLoadingEvent(LoadStatus.SUCCESSFUL);
       })
-      .catch(err => {
-        console.log(`${err}`);
-        status = LoadStatus.FAILURE
-      })
-
-    editPopup.close();
+      .catch(err => {console.log(`${err}`);})
   },
   status
 });
@@ -115,13 +112,14 @@ editButton.addEventListener('click', () => {
 const avatarPopup = new PopupWithForm({
   popupSelector: '.popup-avatar',
   submitHandler: (data) => {
+    isLoadingEvent(LoadStatus.FETCHING)
     api.editAvatar(data)
       .then(data => {
-        userInfo.changeUserPhoto({ avatar: data.avatar })
+        userInfo.changeUserPhoto({ avatar: data.avatar });
+        isLoadingEvent(LoadStatus.SUCCESSFUL);
       })
       .catch(err => { console.log(`${err}`) })
-  },
-  status
+  }
 })
 avatarPopup.setEventListeners();
 
@@ -134,13 +132,22 @@ editAvatar.addEventListener('click', () => {
 const addPopup = new PopupWithForm({
   popupSelector: '.popup-add',
   submitHandler: (data) => {
+    isLoadingEvent(LoadStatus.FETCHING)
     api.addNewCard(data)
       .then(data => {
-        places.addItem(createCard({ name: data.name, link: data.link, owner: data.owner, _id: data._id, likes: data.likes }, data.owner._id, userId));
+        isLoadingEvent(LoadStatus.SUCCESSFUL);
+        places.addItem(createCard({ 
+          name: data.name, 
+          link: data.link, 
+          owner: data.owner, 
+          _id: data._id, 
+          likes: data.likes 
+        }, 
+          data.owner._id, 
+          userId));
       })
       .catch(err => console.log(`ошибочка ${err}`));
-  },
-  status
+  }
 });
 addPopup.setEventListeners();
 //слушатель на клик формы добавления карточки
@@ -148,8 +155,8 @@ addButton.addEventListener('click', () => {
   addPopup.open();
   addFormValidation.toggleButtonState();
 });
-const counter = document.querySelector('.place__like-counter');
-let likeNumber = null;
+
+
 //рендеринг карточки на страницу
 function createCard(item) {
   const place = new Card({
@@ -172,7 +179,7 @@ function createCard(item) {
           .catch(err => console.log(`не удалилось из-за ${err}`))
       })
     },
-    // api //api
+    api //api
   );
   const placeElement = place.generateCard();
   return placeElement;
@@ -180,6 +187,6 @@ function createCard(item) {
 
 const confirmPopup = new PopupWithConfirm({
   popupSelector: '.popup-confirm'
-})
+});
 confirmPopup.setEventListeners();
 

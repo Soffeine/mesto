@@ -1,11 +1,10 @@
 import { Popup } from './Popup.js';
+import {LoadStatus} from "../utils/constants";
 
 export class PopupWithForm extends Popup {
-    constructor({popupSelector, submitHandler, status}) {
+    constructor({popupSelector, submitHandler}) {
         super(popupSelector);
         this._submitHandler = submitHandler;
-        this._status = status;
-        console.log(this._status)
         }
 
     _getInputValues() {
@@ -23,7 +22,16 @@ export class PopupWithForm extends Popup {
         this._form.addEventListener('submit', (evt) => {
             evt.preventDefault();
             this._submitHandler(this._getInputValues());
-            this.close();
+            
+            const submitButton = evt.target.querySelector(`.popup__button`);
+
+            window.addEventListener(LoadStatus.FETCHING, () => {
+                submitButton.textContent = `Сохранение...`
+            });
+            window.addEventListener(LoadStatus.SUCCESSFUL, () => {
+                submitButton.textContent = `Сохранить`;
+                this.close()
+            });
         }); 
     }
 

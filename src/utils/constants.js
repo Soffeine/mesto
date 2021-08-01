@@ -22,8 +22,6 @@ export const validationConfig = {
 }
 
 export const LoadStatus = {
-  INITIAL: 'initial',
   FETCHING: 'fetching',
   SUCCESSFUL: 'successful',
-  FAILURE: 'failure'
 }
