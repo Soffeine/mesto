@@ -1,15 +1,14 @@
 export class Section {
-    constructor({data, renderer}, cardContainer) {
-        this._renderItems = data;
+    constructor({ renderer }, cardContainer) {
         this._renderer = renderer;
         this._cardContainer = document.querySelector(cardContainer);
     }
     
     //метод, который отрисовывает элементы на страницу
-    createItems() {
-      this._renderItems.forEach(item => {
-          this._renderer(item);
-      })
+    createItems(data) {
+      data.forEach(data => {
+          this._renderer(data);
+      }) 
     }
     
     //метод, который добавляет элементы в разметку

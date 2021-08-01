@@ -12,6 +12,7 @@ export class UserInfo {
     return {
       name: this._name.textContent,
       about: this._description.textContent,
+      avatar: this._avatar.src,
       _id: this._id
     }
   }
@@ -20,13 +21,12 @@ export class UserInfo {
   setUserInfo(data) { 
     this._name.textContent = data.name; 
     this._description.textContent = data.about;
-    this._avatar = data.avatar;
     this._userId = data._id;
   }
 
   // изменяет фото профиля 
   changeUserPhoto(data) {
-    this._photo.src = data.photo;
+    this._avatar.src = data.avatar;
   }
 
   //получить айди пользователя 

@@ -10,24 +10,29 @@ import { Api } from '../components/Api.js';
 import {
   editButton,
   addButton,
-  initialPlaces,
   addForm,
   editForm,
   inputName,
   inputDescription,
-  validationConfig
+  validationConfig,
+  avatarForm,
+  editAvatar,
+  LoadStatus
 } from '../utils/constants.js';
 import './index.css';
 
 
 //экземпляр класса FormValidator для валидации формы добавления карточки
 const addFormValidation = new FormValidator(addForm, validationConfig);
-//вызов валидации формы добавления карточки
 addFormValidation.enableValidation();
 
 //экземпляр класса FormValidator для валидации формы редактирования профиля
 const editFormValidation = new FormValidator(editForm, validationConfig);
 editFormValidation.enableValidation();
+
+//экземпляр класса FormValidator для валидации формы редактирования фото профиля
+const avatarFormValidation = new FormValidator(avatarForm, validationConfig);
+avatarFormValidation.enableValidation();
 
 //экземпляр класса открытия карточки
 const handleFullImagePopup = new PopupWithImage('.popup-image');
@@ -47,54 +52,56 @@ const api = new Api({
   }
 });
 
-let user = null;
-// получение данных профиля с сервера
-api.getUserInfo()
-  .then(userData => {
-    user = userData.data;
-    userInfo.setUserInfo({
-      name: userData.name,
-      about: userData.about,
-      avatar: userData.avatar,
-      _id: userData._id,
-    })
-  })
-  .catch(err => console.log(`ИИИИИРРРОР: ${err}`))
-
-//получение карточек с сервера
-api.getPlaceInfo()
-  .then(res => {
-    const Places = new Section({
-      data: res,
-      renderer: (data) => {
-        Places.addItem(createCard(data));
-      }
-    }, '.places');
-    Places.createItems(res);
-  })
-  .catch(err => console.log(`Упс, ошибочка ${err}`));
-
 //экземпляр класса userInfo
 const userInfo = new UserInfo({
   nameSelector: '.profile__name',
-  descriptionSelector: '.profile__description'
+  descriptionSelector: '.profile__description',
+  photoSelector: '.profile__image_photo'
 });
 
+// экземпляр  класса Section
+const places = new Section({
+  renderer: (data) => {
+    places.addItem(createCard({ name: data.name, link: data.link, owner: data.owner, _id: data._id, likes: data.likes }, data.owner._id, userId));
+  }
+}, '.places');
+
+let userId = null;
+
+Promise.all([api.getUserInfo(), api.getPlaceInfo()])
+  .then(([userData, res]) => {
+    userId = userData._id;
+    userInfo.setUserInfo({
+      name: userData.name,
+      about: userData.about,
+      _id: userData._id,
+    });
+    places.createItems(res);
+  })
+  .catch(err => console.log(`Упс, ошибочка ${err}`));
+
+let status = LoadStatus.INITIAL;
 //экземпляр класса PopupWithForm для открытия попапа редактирования профиля
 const editPopup = new PopupWithForm({
   popupSelector: '.popup-edit',
   submitHandler: (data) => {
     api.editProfileInfo(data)
+      .then(() => status = LoadStatus.FETCHING)
       .then((data) => {
         userInfo.setUserInfo({ name: data.name, about: data.about, _id: data._id });
+        status = LoadStatus.SUCCESSFUL
       })
-      .catch(err => { console.log(`${err}`) })
+      .catch(err => {
+        console.log(`${err}`);
+        status = LoadStatus.FAILURE
+      })
 
     editPopup.close();
-  }
+  },
+  status
 });
 editPopup.setEventListeners();
-
+//слушатель на клик формы редактирования профиля
 editButton.addEventListener('click', () => {
   editPopup.open();
   const currentUserInfo = userInfo.getUserInfo();
@@ -103,46 +110,60 @@ editButton.addEventListener('click', () => {
   editFormValidation.toggleButtonState();
 });
 
+
+//попап изменения фото профиля
+const avatarPopup = new PopupWithForm({
+  popupSelector: '.popup-avatar',
+  submitHandler: (data) => {
+    api.editAvatar(data)
+      .then(data => {
+        userInfo.changeUserPhoto({ avatar: data.avatar })
+      })
+      .catch(err => { console.log(`${err}`) })
+  },
+  status
+})
+avatarPopup.setEventListeners();
+
+editAvatar.addEventListener('click', () => {
+  avatarPopup.open();
+  avatarFormValidation.toggleButtonState();
+})
+
 //сабмит добавления новой карточки
 const addPopup = new PopupWithForm({
   popupSelector: '.popup-add',
   submitHandler: (data) => {
     api.addNewCard(data)
       .then(data => {
-        defaultPlaces.addItem(createCard({ name: data.name, link: data.link, owner: data.owner, _id: data._id }));
+        places.addItem(createCard({ name: data.name, link: data.link, owner: data.owner, _id: data._id, likes: data.likes }, data.owner._id, userId));
       })
       .catch(err => console.log(`ошибочка ${err}`));
-  }
+  },
+  status
 });
 addPopup.setEventListeners();
-
 //слушатель на клик формы добавления карточки
 addButton.addEventListener('click', () => {
   addPopup.open();
   addFormValidation.toggleButtonState();
 });
-
-
-
-let userId = null;
-// console.log(userId);
-// userId = userInfo.getUserId();
-// console.log(userId);
-
+const counter = document.querySelector('.place__like-counter');
+let likeNumber = null;
 //рендеринг карточки на страницу
 function createCard(item) {
   const place = new Card({
     name: item.name,
     link: item.link,
     owner: item.owner,
-    _id: item._id
+    _id: item._id,
+    likes: item.likes
   }, //placeData
     item.owner._id, //ownerId
-    userId = userInfo.getUserId(), //myId
+    userId, //myId
     '#place-card', //cardSelector
     openFullImage, //handleCardClick
     () => { //handleDeleteCardIcon
-      console.log(userId);
       confirmPopup.open();
       confirmPopup.setSubmitAction(() => {
         api.deleteCard(place.getId())
@@ -150,31 +171,15 @@ function createCard(item) {
           .then(() => { confirmPopup.close() })
           .catch(err => console.log(`не удалилось из-за ${err}`))
       })
-    }
+    },
+    // api //api
   );
   const placeElement = place.generateCard();
   return placeElement;
 }
-
-//создание карточек из массива
-const defaultPlaces = new Section({
-  data: initialPlaces,
-  renderer: (data) => {
-    defaultPlaces.addItem(createCard(data));
-  }
-}, '.places');
 
 const confirmPopup = new PopupWithConfirm({
   popupSelector: '.popup-confirm'
 })
 confirmPopup.setEventListeners();
 
-
-//попап изменения фото профиля
-
-//const edu = new PopupWithForm({
-//popupSelector: '.popup-avatar',
-//submitHandler: (futureValues) => {
-//
-//}
-//})

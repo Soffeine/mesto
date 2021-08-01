@@ -6,6 +6,7 @@ export class Api {
         this._headers = config.headers;
     }
 
+
     // Загрузить информацию о пользователе с сервера
     getUserInfo() {
         return fetch(`${this._url}/users/me`, {
@@ -43,18 +44,36 @@ export class Api {
             method: 'PATCH',
             headers: this._headers,
             body: JSON.stringify({
-              name: data.name,
-              about: data.about
+                name: data.name,
+                about: data.about
             })
-          })
-          .then(res => {
-            if (res.ok) {
-                return res.json()
-            } else {
-                return Promise.reject(`Не отредактировать тебе профиль с таким кодом ${res.status}`)
-            }
         })
-        }
+            .then(res => {
+                if (res.ok) {
+                    return res.json()
+                } else {
+                    return Promise.reject(`Не отредактировать тебе профиль с таким кодом ${res.status}`)
+                }
+            })
+    }
+
+    // Редактирование профиля 
+    editAvatar(data) {
+        return fetch(`${this._url}/users/me/avatar`, {
+            method: 'PATCH',
+            headers: this._headers,
+            body: JSON.stringify({
+                avatar: data.avatar
+            })
+        })
+            .then(res => {
+                if (res.ok) {
+                    return res.json()
+                } else {
+                    return Promise.reject(`Не отредактировать тебе аватар с таким кодом ${res.status}`)
+                }
+            })
+    }
 
     // Добавление новой карточки
     addNewCard(item) {
@@ -66,13 +85,13 @@ export class Api {
                 link: item.link
             })
         })
-        .then(res => {
-            if (res.ok) {
-                return res.json()
-            } else {
-                return Promise.reject(`Карточка не добавлена ${res.status}`)
-            }
-        })
+            .then(res => {
+                if (res.ok) {
+                    return res.json()
+                } else {
+                    return Promise.reject(`Карточка не добавлена ${res.status}`)
+                }
+            })
     }
 
     //  Удалние карточки
@@ -85,17 +104,45 @@ export class Api {
                 link: data.link
             })
         })
-        .then(res => {
-            if (res.ok) {
-                return res.json()
-            } else {
-                return Promise.reject(`не получается удалить карточку, потому что ${res.status}`)
-            }
-        })
+            .then(res => {
+                if (res.ok) {
+                    return res.json()
+                } else {
+                    return Promise.reject(`не получается удалить карточку, потому что ${res.status}`)
+                }
+            })
     }
 
-    //  лайк-каунтер??????????????????
-    toggleLikeCount() {
-      
+    // постановка лайка
+    putLike(_id) {
+        return fetch(`${this._url}/cards/likes/${_id}`, {
+            method: 'PUT',
+            headers: this._headers
+        })
+            .then(res => {
+                if (res.ok) {
+                    return res.json()
+                } else {
+                    return Promise.reject(`лайк не случисля ${res.status}`)
+                }
+            })
     }
+
+    // снятие лайка
+    deleteLike(_id) {
+
+        return fetch(`${this._url}/cards/likes/${_id}`, {
+            method: 'DELETE',
+            headers: this._headers
+        })
+            .then(res => {
+                if (res.ok) {
+                    return res.json()
+                } else {
+                    return Promise.reject(`если тебе настолько не нравится картинка, напиши нормальный код: ${res.status}`)
+                }
+            })
+    }
+
+
 }
