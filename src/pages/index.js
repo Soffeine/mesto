@@ -56,7 +56,7 @@ const api = new Api({
 const userInfo = new UserInfo({
   nameSelector: '.profile__name',
   descriptionSelector: '.profile__description',
-  photoSelector: '.profile__image_photo'
+  photoSelector: '.profile__photo'
 });
 
 // экземпляр  класса Section

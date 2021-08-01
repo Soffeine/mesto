@@ -8,13 +8,13 @@
   }
   
   @media screen and (max-width:900px) {
-    .profile__image_photo {
+    .profile__photo {
       width: 12vw;
     }
   }
   
   @media screen and (max-width:640px) {
-    .profile__image_photo {
+    .profile__photo {
       width: 50vw;
       margin-bottom: 22px;
       margin-right: 0;

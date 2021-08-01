@@ -1,7 +1,7 @@
 //кнопки в разметке для вызова попапов
 export const editButton = document.querySelector('.profile__edit-button');
 export const addButton = document.querySelector('.profile__add-button');
-export const editAvatar = document.querySelector('.profile__image_edit-photo-sign');
+export const editAvatar = document.querySelector('.profile__edit-sign');
 
 
 export const addForm = document.forms.addForm;  //ФОРМА добавления карточки
