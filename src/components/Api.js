@@ -6,6 +6,15 @@ export class Api {
         this._headers = config.headers;
     }
 
+    // обработка ответа от сервера
+    _getResponseData(res) {
+        if (res.ok) {
+            return res.json()
+        } else {
+            return Promise.reject(`Произошла ошибка ${res.status}`)
+        }
+    }
+
 
     // Загрузить информацию о пользователе с сервера
     getUserInfo() {
@@ -13,14 +22,9 @@ export class Api {
             method: 'GET',
             headers: this._headers
         })
-            .then(res => {
-                if (res.ok) {
-                    return res.json()
-                } else {
-                    Promise.reject(`СМОТРИ, КОСЯК ПРИ ПОЛУЧЕНИИ ДАННЫХ ПРОФИЛЯ! ${res.status}`)
-                }
-            })
+            .then(this._getResponseData)
     }
+
 
     // Загрузить карточки с сервера
     getPlaceInfo() {
@@ -28,13 +32,7 @@ export class Api {
             method: 'GET',
             headers: this._headers
         })
-            .then(res => {
-                if (res.ok) {
-                    return res.json();
-                } else {
-                    return Promise.reject(console.log(`Ха! Лови ошибку в загрузке карточек ${res.status}`))
-                };
-            })
+            .then(this._getResponseData)
     }
 
 
@@ -48,23 +46,9 @@ export class Api {
                 about: data.about
             })
         })
-            .then(res => {
-                if (res.ok) {
-                    return res.json()
-                } else {
-                    return Promise.reject(`Не отредактировать тебе профиль с таким кодом ${res.status}`)
-                }
-            })
+            .then(this._getResponseData)
     }
 
-    //
-    _getResponseData(res) {
-        if (res.ok) {
-            return res.json()
-        } else {
-            return Promise.reject(`Произошла ошибка ${res.status}`)
-        }
-    }
 
     // Редактирование профиля 
     editAvatar(data) {
@@ -88,7 +72,7 @@ export class Api {
                 link: item.link
             })
         })
-        .then(this._getResponseData)
+            .then(this._getResponseData)
     }
 
     //  Удалние карточки
@@ -101,7 +85,7 @@ export class Api {
                 link: data.link
             })
         })
-        .then(this._getResponseData)
+            .then(this._getResponseData)
     }
 
     // постановка лайка
@@ -110,7 +94,7 @@ export class Api {
             method: 'PUT',
             headers: this._headers
         })
-        .then(this._getResponseData)
+            .then(this._getResponseData)
     }
 
     // снятие лайка
@@ -120,7 +104,7 @@ export class Api {
             method: 'DELETE',
             headers: this._headers
         })
-        .then(this._getResponseData)
+            .then(this._getResponseData)
     }
 
 
