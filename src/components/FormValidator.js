@@ -2,6 +2,7 @@ export class FormValidator {
     constructor(form, config) {
         this._form = form;
         this._config = config;
+        this._submitButton = this._form.querySelector(this._config.submitButton);
     }
 
     // копированиe текста ошибки из свойства поля ввода в span под ним.
@@ -25,9 +26,7 @@ export class FormValidator {
     _validateInput(input) {
         const validity = input.validity;
         const isValid = input.checkValidity();
-        if (validity.tooShort || validity.tooLong) {
-            this._showError(input, this._config);
-        } else if (validity.typeMismatch && input.type === 'url') {
+        if (validity.tooShort || validity.tooLong || validity.typeMismatch && input.type === 'url') {
             this._showError(input, this._config);
         } else if (isValid) {
             this._hideError(input, this._config);
@@ -36,23 +35,22 @@ export class FormValidator {
 
     //изменения кнопки
     toggleButtonState() {
-        const button = this._form.querySelector(this._config.submitButton);
         const isValid = this._form.checkValidity();
         if (isValid) {
-            button.removeAttribute('disabled');
-            button.classList.add(this._config.submitButtonValid);
+            this._submitButton.removeAttribute('disabled');
+            this._submitButton.classList.add(this._config.submitButtonValid);
         } else {
-            button.setAttribute('disabled', true);
-            button.classList.remove(this._config.submitButtonValid);
+            this._submitButton.setAttribute('disabled', true);
+            this._submitButton.classList.remove(this._config.submitButtonValid);
         }
     }
 
     _setEventListeners(form, config) {
         this._form.addEventListener('input', (evt) => {
             const input = evt.target;
-            this._validateInput(input, this._config);
+            this._validateInput(input);
             this._highlightFieldError(input, this._config);
-            this.toggleButtonState(this._form, this._config);
+            this.toggleButtonState();
         });
     }
 

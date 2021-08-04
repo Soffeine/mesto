@@ -22,6 +22,7 @@ export class UserInfo {
     this._name.textContent = data.name; 
     this._description.textContent = data.about;
     this._userId = data._id;
+    this._avatar.src = data.avatar;
   }
 
   // изменяет фото профиля 

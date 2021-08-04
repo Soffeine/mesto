@@ -13,6 +13,10 @@ export class Section {
     
     //метод, который добавляет элементы в разметку
     addItem(element) {
+        this._cardContainer.append(element)
+    }
+
+    addNewItem(element) {
         this._cardContainer.prepend(element)
     }
 }

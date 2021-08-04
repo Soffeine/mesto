@@ -12,6 +12,8 @@ export const avatarForm = document.forms.avatarForm; //ФОРМА редакти
 export const inputName = editForm.elements.name;
 export const inputDescription = editForm.elements.about;
 
+export const escKey = 'Escape'
+
 //объект валидации
 export const validationConfig = {
   popupForm: '.popup-form',

@@ -1,3 +1,5 @@
+import { escKey } from '../utils/constants.js'
+ 
 export class Popup {
     constructor(popupSelector) {
         this._popup = document.querySelector(popupSelector);
@@ -6,7 +8,7 @@ export class Popup {
     }
 
     _handleEscClose(evt) {
-        if (evt.key === 'Escape') {
+        if (evt.key === escKey) {
             this.close();
         }
     }
@@ -32,6 +34,6 @@ export class Popup {
         closeButton.addEventListener('click', () => {
             this.close();
         });
-        this._popup.addEventListener('click', this._handleOverlayClose);
+        this._popup.addEventListener('mousedown', this._handleOverlayClose);
     }
 }

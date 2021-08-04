@@ -57,6 +57,15 @@ export class Api {
             })
     }
 
+    //
+    _getResponseData(res) {
+        if (res.ok) {
+            return res.json()
+        } else {
+            return Promise.reject(`Произошла ошибка ${res.status}`)
+        }
+    }
+
     // Редактирование профиля 
     editAvatar(data) {
         return fetch(`${this._url}/users/me/avatar`, {
@@ -66,13 +75,7 @@ export class Api {
                 avatar: data.avatar
             })
         })
-            .then(res => {
-                if (res.ok) {
-                    return res.json()
-                } else {
-                    return Promise.reject(`Не отредактировать тебе аватар с таким кодом ${res.status}`)
-                }
-            })
+            .then(this._getResponseData)
     }
 
     // Добавление новой карточки
@@ -85,13 +88,7 @@ export class Api {
                 link: item.link
             })
         })
-            .then(res => {
-                if (res.ok) {
-                    return res.json()
-                } else {
-                    return Promise.reject(`Карточка не добавлена ${res.status}`)
-                }
-            })
+        .then(this._getResponseData)
     }
 
     //  Удалние карточки
@@ -104,13 +101,7 @@ export class Api {
                 link: data.link
             })
         })
-            .then(res => {
-                if (res.ok) {
-                    return res.json()
-                } else {
-                    return Promise.reject(`не получается удалить карточку, потому что ${res.status}`)
-                }
-            })
+        .then(this._getResponseData)
     }
 
     // постановка лайка
@@ -119,13 +110,7 @@ export class Api {
             method: 'PUT',
             headers: this._headers
         })
-            .then(res => {
-                if (res.ok) {
-                    return res.json()
-                } else {
-                    return Promise.reject(`лайк не случисля ${res.status}`)
-                }
-            })
+        .then(this._getResponseData)
     }
 
     // снятие лайка
@@ -135,13 +120,7 @@ export class Api {
             method: 'DELETE',
             headers: this._headers
         })
-            .then(res => {
-                if (res.ok) {
-                    return res.json()
-                } else {
-                    return Promise.reject(`если тебе настолько не нравится картинка, напиши нормальный код: ${res.status}`)
-                }
-            })
+        .then(this._getResponseData)
     }
 
 

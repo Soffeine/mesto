@@ -75,6 +75,7 @@ Promise.all([api.getUserInfo(), api.getPlaceInfo()])
       name: userData.name,
       about: userData.about,
       _id: userData._id,
+      avatar: userData.avatar
     });
     places.createItems(res);
   })
@@ -83,6 +84,7 @@ Promise.all([api.getUserInfo(), api.getPlaceInfo()])
 const isLoadingEvent = (type) => {
   window.dispatchEvent(new CustomEvent(type));
 };
+
 //экземпляр класса PopupWithForm для открытия попапа редактирования профиля
 const editPopup = new PopupWithForm({
   popupSelector: '.popup-edit',
@@ -90,14 +92,17 @@ const editPopup = new PopupWithForm({
     isLoadingEvent(LoadStatus.FETCHING)
     api.editProfileInfo(data)
       .then((data) => {
-        userInfo.setUserInfo({ name: data.name, about: data.about, _id: data._id });
+        userInfo.setUserInfo({ name: data.name, about: data.about, _id: data._id, avatar: data.avatar });
         isLoadingEvent(LoadStatus.SUCCESSFUL);
+        editPopup.close()
       })
       .catch(err => {console.log(`${err}`);})
   },
   status
 });
 editPopup.setEventListeners();
+
+
 //слушатель на клик формы редактирования профиля
 editButton.addEventListener('click', () => {
   editPopup.open();
@@ -117,6 +122,7 @@ const avatarPopup = new PopupWithForm({
       .then(data => {
         userInfo.changeUserPhoto({ avatar: data.avatar });
         isLoadingEvent(LoadStatus.SUCCESSFUL);
+        avatarPopup.close()
       })
       .catch(err => { console.log(`${err}`) })
   }
@@ -136,7 +142,7 @@ const addPopup = new PopupWithForm({
     api.addNewCard(data)
       .then(data => {
         isLoadingEvent(LoadStatus.SUCCESSFUL);
-        places.addItem(createCard({ 
+        places.addNewItem(createCard({ 
           name: data.name, 
           link: data.link, 
           owner: data.owner, 
@@ -145,6 +151,7 @@ const addPopup = new PopupWithForm({
         }, 
           data.owner._id, 
           userId));
+          addPopup.close()
       })
       .catch(err => console.log(`ошибочка ${err}`));
   }
@@ -156,7 +163,7 @@ addButton.addEventListener('click', () => {
   addFormValidation.toggleButtonState();
 });
 
-
+const likeButton = document.querySelector('.place__like-button')
 //рендеринг карточки на страницу
 function createCard(item) {
   const place = new Card({
@@ -179,7 +186,15 @@ function createCard(item) {
           .catch(err => console.log(`не удалилось из-за ${err}`))
       })
     },
-    api //api
+    () => {
+      if(place.likeIsActive()) {
+        api.deleteLike(place.getId())
+        .then(place.removeLike())
+      } else {
+        api.putLike(place.getId())
+        .then(place.setLike())
+      }
+    } //handleLikeAction
   );
   const placeElement = place.generateCard();
   return placeElement;

@@ -30,7 +30,6 @@ export class PopupWithForm extends Popup {
             });
             window.addEventListener(LoadStatus.SUCCESSFUL, () => {
                 submitButton.textContent = `Сохранить`;
-                this.close()
             });
         }); 
     }
